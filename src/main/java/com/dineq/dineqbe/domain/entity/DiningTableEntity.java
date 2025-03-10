@@ -12,11 +12,11 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "dining_table")
-public class DiningTable {
+public class DiningTableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer diningTableId;
 
     @OneToMany(mappedBy = "diningTable", cascade = CascadeType.ALL)
-    private List<TableOrder> tableOrders;
+    private List<TableOrderEntity> tableOrders;
 }

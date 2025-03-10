@@ -12,15 +12,23 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "category")
-public class Category {
+public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer categoryId;
 
     private String categoryName;
+    private String categoryDesc;
     private Integer categoryPriority;
     private LocalDate createdAt;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Menu> menus;
+    private List<MenuEntity> menus;
+
+    public CategoryEntity(String categoryName, String categoryDesc, Integer categoryPriority) {
+        this.categoryName = categoryName;
+        this.categoryDesc = categoryDesc;
+        this.categoryPriority = categoryPriority;
+        this.createdAt = LocalDate.now();
+    }
 }
