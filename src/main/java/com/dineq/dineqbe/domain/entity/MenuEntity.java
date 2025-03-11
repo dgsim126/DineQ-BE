@@ -13,7 +13,7 @@ import lombok.*;
 public class MenuEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer menuId;
+    private Long menuId;
 
     private String menuName;
     private Integer menuPrice;
