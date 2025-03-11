@@ -3,7 +3,7 @@ package com.dineq.dineqbe.domain.entity;
 import com.dineq.dineqbe.domain.enums.UserType;
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "user")
-public class User {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
@@ -22,5 +22,5 @@ public class User {
 
     private String username;
     private String password;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 }

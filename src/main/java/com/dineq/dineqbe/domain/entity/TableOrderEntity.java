@@ -12,18 +12,18 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "table_order")
-public class TableOrder {
+public class TableOrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderId;
 
     @ManyToOne
     @JoinColumn(name = "dining_table_id", nullable = false)
-    private DiningTable diningTable;
+    private DiningTableEntity diningTable;
 
     @ManyToOne
     @JoinColumn(name = "menu_id", nullable = false)
-    private Menu menu;
+    private MenuEntity menu;
 
     private Integer quantity;
     private Integer totalPrice;

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "payment_history")
-public class PaymentHistory {
+public class PaymentHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer paymentHistoryId;
