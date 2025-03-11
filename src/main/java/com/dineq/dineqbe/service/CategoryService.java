@@ -5,6 +5,9 @@ import com.dineq.dineqbe.dto.category.CategoryRequestDTO;
 import com.dineq.dineqbe.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Service
 public class CategoryService {
 
@@ -14,22 +17,36 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-
     public void addCategory(CategoryRequestDTO categoryRequestDTO) {
-        // dto의 categoryName이 DB에 있는지 확인
+
         boolean isCategory= categoryRepository.existsByCategoryName(categoryRequestDTO.getCategoryName());
 
         if(isCategory){
             throw new IllegalArgumentException("Category= '" + categoryRequestDTO.getCategoryName() + "' already exists.");
         }
 
-        /*
-        CategoryEntity categoryEntity = new CategoryEntity();
-        categoryEntity.setCategoryName(categoryRequestDTO.getCategoryName());
-        categoryEntity.setCategoryDesc(categoryRequestDTO.getCategoryDesc());
-        categoryEntity = categoryRepository.save(categoryEntity);
-        */
         CategoryEntity categoryEntity = new CategoryEntity(categoryRequestDTO.getCategoryName(), categoryRequestDTO.getCategoryDesc(), 0);
+        categoryRepository.save(categoryEntity);
+    }
+
+    public void updateCategory(Integer categoryId, CategoryRequestDTO categoryRequestDTO) {
+
+        boolean isCategory= categoryRepository.existsByCategoryId(categoryId);
+
+        if(!isCategory){
+            throw new IllegalArgumentException("Category= '" + categoryRequestDTO.getCategoryName() + "' does not exist.");
+        }
+
+        CategoryEntity categoryEntity = categoryRepository.findById(categoryId).get();
+
+        if(categoryRequestDTO.getCategoryName()!=null){
+            categoryEntity.setCategoryName(categoryRequestDTO.getCategoryName());
+        }
+        if(categoryRequestDTO.getCategoryDesc()!=null){
+            categoryEntity.setCategoryDesc(categoryRequestDTO.getCategoryDesc());
+        }
+
+        categoryEntity.setCreatedAt(LocalDateTime.now());
         categoryRepository.save(categoryEntity);
     }
 }
