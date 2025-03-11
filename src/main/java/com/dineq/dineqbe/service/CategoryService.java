@@ -17,6 +17,7 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+    // 카테고리 추가
     public void addCategory(CategoryRequestDTO categoryRequestDTO) {
 
         boolean isCategory= categoryRepository.existsByCategoryName(categoryRequestDTO.getCategoryName());
@@ -29,6 +30,7 @@ public class CategoryService {
         categoryRepository.save(categoryEntity);
     }
 
+    // 카테고리 수정
     public void updateCategory(Integer categoryId, CategoryRequestDTO categoryRequestDTO) {
 
         boolean isCategory= categoryRepository.existsByCategoryId(categoryId);
@@ -48,5 +50,15 @@ public class CategoryService {
 
         categoryEntity.setCreatedAt(LocalDateTime.now());
         categoryRepository.save(categoryEntity);
+    }
+
+    // 카테고리 삭제
+    public void deleteCategory(Integer categoryId) {
+
+        boolean isCategory= categoryRepository.existsByCategoryId(categoryId);
+        if(!isCategory){
+            throw new IllegalArgumentException("Category= '" + categoryId + "' does not exist.");
+        }
+        categoryRepository.deleteById(categoryId);
     }
 }

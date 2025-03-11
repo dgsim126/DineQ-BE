@@ -46,4 +46,19 @@ public class CategoryController {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
+
+    /**
+     * 카테고리 삭제
+     * @param categoryId
+     * @return status(200),
+     */
+    @DeleteMapping("/categories/{categoryId}")
+    public ResponseEntity<String> deleteCategory(@PathVariable Integer categoryId) {
+        try{
+            categoryService.deleteCategory(categoryId);
+            return ResponseEntity.ok("Category deleted successfully");
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }
