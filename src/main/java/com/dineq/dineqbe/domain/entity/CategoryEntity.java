@@ -2,7 +2,7 @@ package com.dineq.dineqbe.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,8 +19,8 @@ public class CategoryEntity {
 
     private String categoryName;
     private String categoryDesc;
-    private Integer categoryPriority;
-    private LocalDate createdAt;
+    private Integer categoryPriority = 0;
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<MenuEntity> menus;
@@ -29,6 +29,6 @@ public class CategoryEntity {
         this.categoryName = categoryName;
         this.categoryDesc = categoryDesc;
         this.categoryPriority = categoryPriority;
-        this.createdAt = LocalDate.now();
+        this.createdAt = LocalDateTime.now();
     }
 }
