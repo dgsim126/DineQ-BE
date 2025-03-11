@@ -19,7 +19,9 @@ public class CategoryEntity {
 
     private String categoryName;
     private String categoryDesc;
-    private Integer categoryPriority;
+    private Integer categoryPriority = 0;
+
+    @Column(updatable = false)
     private LocalDate createdAt;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
