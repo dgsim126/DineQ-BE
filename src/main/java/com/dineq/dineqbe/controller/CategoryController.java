@@ -1,10 +1,14 @@
 package com.dineq.dineqbe.controller;
 
+import com.dineq.dineqbe.domain.entity.CategoryEntity;
 import com.dineq.dineqbe.dto.category.CategoryRequestDTO;
+import com.dineq.dineqbe.dto.category.CategoryResponseDTO;
 import com.dineq.dineqbe.service.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/store")
@@ -14,6 +18,12 @@ public class CategoryController {
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<CategoryResponseDTO>> getCategories() {
+        List<CategoryResponseDTO> categories = categoryService.getAllCategory();
+        return ResponseEntity.ok(categories);
     }
 
     /**
@@ -61,4 +71,8 @@ public class CategoryController {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
+
+
+
+
 }

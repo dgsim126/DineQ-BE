@@ -2,11 +2,13 @@ package com.dineq.dineqbe.service;
 
 import com.dineq.dineqbe.domain.entity.CategoryEntity;
 import com.dineq.dineqbe.dto.category.CategoryRequestDTO;
+import com.dineq.dineqbe.dto.category.CategoryResponseDTO;
 import com.dineq.dineqbe.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -15,6 +17,18 @@ public class CategoryService {
 
     public CategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
+    }
+
+    // 모든 카테고리 조회
+    public List<CategoryResponseDTO> getAllCategory() {
+        return categoryRepository.findAll().stream()
+                .map(category -> new CategoryResponseDTO(
+                        category.getCategoryId(),
+                        category.getCategoryName(),
+                        category.getCategoryDesc(),
+                        category.getCategoryPriority()
+                ))
+                .collect(Collectors.toList());
     }
 
     // 카테고리 추가
@@ -61,4 +75,6 @@ public class CategoryService {
         }
         categoryRepository.deleteById(categoryId);
     }
+
+
 }
