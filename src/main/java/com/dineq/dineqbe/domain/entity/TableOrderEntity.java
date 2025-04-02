@@ -3,7 +3,7 @@ package com.dineq.dineqbe.domain.entity;
 import com.dineq.dineqbe.domain.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -27,7 +27,7 @@ public class TableOrderEntity {
 
     private Integer quantity;
     private Integer totalPrice; // menuPrice * quantity
-    private LocalDate paymentTime;
+    private LocalDateTime orderTime;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;

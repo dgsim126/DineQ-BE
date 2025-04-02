@@ -2,14 +2,12 @@ package com.dineq.dineqbe.controller;
 
 import com.dineq.dineqbe.dto.customer.MenuListResponseDTO;
 import com.dineq.dineqbe.dto.customer.MenuResponseDTO;
+import com.dineq.dineqbe.dto.customer.TableOrderRequestDTO;
 import com.dineq.dineqbe.service.CustomerService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,11 +24,10 @@ public class CustomerController {
     /**
      * 메뉴 전체 조회
      * [GET] /api/v1/menus
-     * @return
+     * @return status 200
      */
     @GetMapping("/menus")
     public ResponseEntity<List<MenuListResponseDTO>> getAllMenus() {
-
         List<MenuListResponseDTO> menuList = customerService.getAllMenus();
         return ResponseEntity.ok(menuList);
     }
@@ -39,11 +36,10 @@ public class CustomerController {
      * 특정 메뉴 조회
      * [GET] /api/v1/menus/{menuId}
      * @param menuId
-     * @return
+     * @return status 200, status 404, status 500
      */
     @GetMapping("/menus/{menuId}")
     public ResponseEntity<?> getMenuById(@PathVariable Long menuId) {
-
         try {
             MenuResponseDTO menu = customerService.getMenuById(menuId);
             return ResponseEntity.ok(menu);
@@ -58,6 +54,21 @@ public class CustomerController {
 
     /**
      * 장바구니 메뉴 주문
-     * [POST]
+     * [POST] /api/v1/orders
+     * @param request
+     * @return status 200, status 404, status 500
      */
+    @PostMapping("/orders")
+    public ResponseEntity<?> createOrder(@RequestBody TableOrderRequestDTO request) {
+        try {
+            String groupNum = customerService.createOrder(request);
+            return ResponseEntity.ok().body("주문이 완료되었습니다. 주문 번호: " + groupNum);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("주문 처리 중 오류가 발생했습니다.");
+        }
+    }
 }
