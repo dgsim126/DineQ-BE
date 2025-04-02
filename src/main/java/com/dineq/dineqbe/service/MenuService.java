@@ -89,4 +89,15 @@ public class MenuService {
 
         menuRepository.save(menuEntity);
     }
+
+    // 메뉴 삭제
+    public void deleteMenu(Long menuId) {
+        boolean isMenu= menuRepository.existsByMenuId(menuId);
+
+        if(!isMenu){
+            throw new IllegalArgumentException("Menu= '" + menuId + "' does not exist.");
+        }
+
+        menuRepository.deleteById(menuId);
+    }
 }

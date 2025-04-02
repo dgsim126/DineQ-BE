@@ -62,4 +62,20 @@ public class MenuController {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
+
+    /**
+     * 메뉴 삭제
+     * DELETE /api/v1/store/menus/{menuId}
+     * @param menuId
+     * @return
+     */
+    @DeleteMapping("menus/{menuId}")
+    public ResponseEntity<String> deleteMenu(@PathVariable Long menuId) {
+        try{
+            menuService.deleteMenu(menuId);
+            return ResponseEntity.ok("Menu deleted successfully");
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }
