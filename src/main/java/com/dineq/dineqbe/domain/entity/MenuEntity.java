@@ -19,7 +19,7 @@ public class MenuEntity {
     private Integer menuPrice;
 
     @Builder.Default
-    private boolean onSale = true;
+    private Boolean onSale = true;
 
     private Integer menuPriority;
     private String menuInfo;

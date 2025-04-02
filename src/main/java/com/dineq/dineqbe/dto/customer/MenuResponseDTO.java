@@ -28,7 +28,7 @@ public class MenuResponseDTO {
                 .menuId(menu.getMenuId())
                 .menuName(menu.getMenuName())
                 .menuPrice(menu.getMenuPrice())
-                .onSale(menu.isOnSale())
+                .onSale(menu.getOnSale())
                 .menuInfo(menu.getMenuInfo())
                 .menuImage(menu.getMenuImage())
                 .categoryId(menu.getCategory().getCategoryId())
