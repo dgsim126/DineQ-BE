@@ -5,8 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<CategoryEntity, Integer> {
+public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
     boolean existsByCategoryName(String categoryName);
 
-    boolean existsByCategoryId(Integer categoryId);
+    boolean existsByCategoryId(Long categoryId);
+
 }
