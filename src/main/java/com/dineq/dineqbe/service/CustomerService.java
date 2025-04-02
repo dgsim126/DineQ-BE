@@ -19,6 +19,11 @@ public class CustomerService {
         this.menuRepository = menuRepository;
     }
 
+    /**
+     * 메뉴 전체 조회
+     * GET /api/v1/menus
+     * @return
+     */
     public List<MenuListResponseDTO> getAllMenus() {
         List<MenuEntity> menuEntities = menuRepository.findAll();
         return menuEntities.stream()

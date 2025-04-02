@@ -20,8 +20,11 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+
     /**
      * 메뉴 전체 조회
+     * GET /api/v1/menus
+     * @return
      */
     @GetMapping("/menus")
     public ResponseEntity<List<MenuListResponseDTO>> getAllMenus() {
