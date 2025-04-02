@@ -88,9 +88,9 @@ public class CategoryController {
      * @return
      */
     @PutMapping("/categories/sort")
-    public ResponseEntity<Void> updatePriorities(@RequestBody CategoryPriorityUpdateRequestDTO request) {
+    public ResponseEntity<String> updatePriorities(@RequestBody CategoryPriorityUpdateRequestDTO request) {
         categoryService.updateCategory(request.getPriorities());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(200).body("Category updated successfully");
     }
 
 }

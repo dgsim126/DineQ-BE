@@ -1,12 +1,14 @@
 package com.dineq.dineqbe.service;
 
 import com.dineq.dineqbe.domain.entity.MenuEntity;
+import com.dineq.dineqbe.dto.menu.MenuPriorityRequestDTO;
 import com.dineq.dineqbe.dto.menu.MenuRequestDTO;
 import com.dineq.dineqbe.dto.menu.MenuResponseDTO;
 import com.dineq.dineqbe.dto.menu.MenuUpdateRequestDTO;
 import com.dineq.dineqbe.repository.CategoryRepository;
 import com.dineq.dineqbe.repository.MenuRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -99,5 +101,16 @@ public class MenuService {
         }
 
         menuRepository.deleteById(menuId);
+    }
+
+    @Transactional
+    public void updatePriorities(List<MenuPriorityRequestDTO> priorities) {
+        for (MenuPriorityRequestDTO menuPriorityRequestDTO : priorities) {
+            MenuEntity menuEntity = menuRepository.findById(menuPriorityRequestDTO.getMenuId()).orElse(null);
+
+            if(menuEntity!=null){
+                menuEntity.setMenuPriority(menuPriorityRequestDTO.getMenuPriority());
+            }
+        }
     }
 }

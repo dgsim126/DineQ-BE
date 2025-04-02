@@ -1,5 +1,6 @@
 package com.dineq.dineqbe.controller;
 
+import com.dineq.dineqbe.dto.menu.MenuPriorityUpdateRequestDTO;
 import com.dineq.dineqbe.dto.menu.MenuRequestDTO;
 import com.dineq.dineqbe.dto.menu.MenuResponseDTO;
 import com.dineq.dineqbe.dto.menu.MenuUpdateRequestDTO;
@@ -77,5 +78,11 @@ public class MenuController {
         }catch (IllegalArgumentException e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
+    }
+
+    @PutMapping("/menus/sort")
+    public ResponseEntity<String> sortMenu(@RequestBody MenuPriorityUpdateRequestDTO request) {
+        menuService.updatePriorities(request.getPriorities());
+        return ResponseEntity.status(200).body("Menu sorted successfully");
     }
 }
