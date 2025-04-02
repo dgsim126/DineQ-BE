@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class PaymentHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer paymentHistoryId;
+    private Long paymentHistoryId;
 
     private Integer orderId;
     private String menuName;

@@ -13,11 +13,14 @@ import lombok.*;
 public class MenuEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer menuId;
+    private Long menuId;
 
     private String menuName;
     private Integer menuPrice;
+
+    @Builder.Default
     private boolean onSale = true;
+
     private Integer menuPriority;
     private String menuInfo;
     private String menuImage;
@@ -26,7 +29,7 @@ public class MenuEntity {
     @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
 
-    public MenuEntity(Integer category, String menuName, Integer menuPrice, String menuInfo, Integer menuPriority, String menuImage, boolean onSale) {
+    public MenuEntity(Long category, String menuName, Integer menuPrice, String menuInfo, Integer menuPriority, String menuImage, boolean onSale) {
         this.category = new CategoryEntity();
         this.category.setCategoryId(category);
         this.menuName = menuName;
