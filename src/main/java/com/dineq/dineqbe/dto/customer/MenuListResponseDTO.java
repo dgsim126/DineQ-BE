@@ -10,26 +10,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MenuResponseDTO {
+public class MenuListResponseDTO {
     private Long menuId;
     private String menuName;
     private Integer menuPrice;
     private Boolean onSale;
-    private Integer menuPriority;
-    private String menuInfo;
     private String menuImage;
 
     private Long categoryId;
     private String categoryName;
     private Integer categoryPriority;
 
-    public static MenuResponseDTO fromEntity(MenuEntity menu) {
-        return MenuResponseDTO.builder()
+    public static MenuListResponseDTO fromEntity(MenuEntity menu) {
+        return MenuListResponseDTO.builder()
                 .menuId(menu.getMenuId())
                 .menuName(menu.getMenuName())
                 .menuPrice(menu.getMenuPrice())
                 .onSale(menu.isOnSale())
-                .menuInfo(menu.getMenuInfo())
                 .menuImage(menu.getMenuImage())
                 .categoryId(menu.getCategory().getCategoryId())
                 .categoryName(menu.getCategory().getCategoryName())

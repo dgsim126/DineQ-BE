@@ -1,6 +1,7 @@
 package com.dineq.dineqbe.service;
 
 import com.dineq.dineqbe.domain.entity.MenuEntity;
+import com.dineq.dineqbe.dto.customer.MenuListResponseDTO;
 import com.dineq.dineqbe.dto.customer.MenuResponseDTO;
 import com.dineq.dineqbe.repository.MenuRepository;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,10 @@ public class CustomerService {
         this.menuRepository = menuRepository;
     }
 
-    public List<MenuResponseDTO> getAllMenus() {
+    public List<MenuListResponseDTO> getAllMenus() {
         List<MenuEntity> menuEntities = menuRepository.findAll();
         return menuEntities.stream()
-                .map(MenuResponseDTO::fromEntity)
+                .map(MenuListResponseDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 }

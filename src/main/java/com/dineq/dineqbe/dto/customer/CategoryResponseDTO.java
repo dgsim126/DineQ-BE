@@ -1,4 +1,5 @@
 package com.dineq.dineqbe.dto.customer;
+import com.dineq.dineqbe.domain.entity.CategoryEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,5 +13,11 @@ import lombok.NoArgsConstructor;
 public class CategoryResponseDTO {
     private Long categoryId;
     private String categoryName;
-    private String categoryDesc;
+
+    public static CategoryResponseDTO fromEntity(CategoryEntity category) {
+        return CategoryResponseDTO.builder()
+                .categoryId(category.getCategoryId())
+                .categoryName(category.getCategoryName())
+                .build();
+    }
 }

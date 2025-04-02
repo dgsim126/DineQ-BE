@@ -1,5 +1,6 @@
 package com.dineq.dineqbe.controller;
 
+import com.dineq.dineqbe.dto.customer.MenuListResponseDTO;
 import com.dineq.dineqbe.dto.customer.MenuResponseDTO;
 import com.dineq.dineqbe.service.CustomerService;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,8 @@ public class CustomerController {
      * 메뉴 전체 조회
      */
     @GetMapping("/menus")
-    public ResponseEntity<List<MenuResponseDTO>> getMenus() {
-        List<MenuResponseDTO> menuList = customerService.getAllmenus();
+    public ResponseEntity<List<MenuListResponseDTO>> getAllMenus() {
+        List<MenuListResponseDTO> menuList = customerService.getAllMenus();
         return ResponseEntity.ok(menuList);
     }
 

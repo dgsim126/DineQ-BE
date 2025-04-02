@@ -19,7 +19,10 @@ public class CategoryEntity {
 
     private String categoryName;
     private String categoryDesc;
+
+    @Builder.Default
     private Integer categoryPriority = 0;
+
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
