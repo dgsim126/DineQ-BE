@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class TableOrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer orderId;
+    private Long orderId;
 
     @ManyToOne
     @JoinColumn(name = "dining_table_id", nullable = false)

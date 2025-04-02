@@ -15,11 +15,14 @@ import java.util.List;
 public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer categoryId;
+    private Long categoryId;
 
     private String categoryName;
     private String categoryDesc;
+
+    @Builder.Default
     private Integer categoryPriority = 0;
+
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
