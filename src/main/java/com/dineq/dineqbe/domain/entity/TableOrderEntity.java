@@ -26,7 +26,7 @@ public class TableOrderEntity {
     private MenuEntity menu;
 
     private Integer quantity;
-    private Integer totalPrice;
+    private Integer totalPrice; // menuPrice * quantity
     private LocalDate paymentTime;
 
     @Enumerated(EnumType.STRING)

@@ -25,7 +25,7 @@ public class CustomerController {
 
     /**
      * 메뉴 전체 조회
-     * GET /api/v1/menus
+     * [GET] /api/v1/menus
      * @return
      */
     @GetMapping("/menus")
@@ -37,7 +37,7 @@ public class CustomerController {
 
     /**
      * 특정 메뉴 조회
-     * GET /api/v1/menus/{menuId}
+     * [GET] /api/v1/menus/{menuId}
      * @param menuId
      * @return
      */
@@ -55,4 +55,9 @@ public class CustomerController {
                     .body("서버 오류가 발생했습니다.");
         }
     }
+
+    /**
+     * 장바구니 메뉴 주문
+     * [POST]
+     */
 }

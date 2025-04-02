@@ -22,7 +22,7 @@ public class CustomerService {
 
     /**
      * 메뉴 전체 조회
-     * GET /api/v1/menus
+     * [GET] /api/v1/menus
      * @return
      */
     public List<MenuListResponseDTO> getAllMenus() {
@@ -34,7 +34,7 @@ public class CustomerService {
 
     /**
      * 특정 메뉴 조회
-     * GET /api/v1/menus/{menuId}
+     * [GET] /api/v1/menus/{menuId}
      * @param menuId
      * @return
      */
