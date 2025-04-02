@@ -3,10 +3,7 @@ package com.dineq.dineqbe.service;
 import com.dineq.dineqbe.domain.entity.DiningTableEntity;
 import com.dineq.dineqbe.domain.entity.MenuEntity;
 import com.dineq.dineqbe.domain.entity.TableOrderEntity;
-import com.dineq.dineqbe.dto.customer.MenuListResponseDTO;
-import com.dineq.dineqbe.dto.customer.MenuResponseDTO;
-import com.dineq.dineqbe.dto.customer.OrderItemDTO;
-import com.dineq.dineqbe.dto.customer.TableOrderRequestDTO;
+import com.dineq.dineqbe.dto.customer.*;
 import com.dineq.dineqbe.repository.DiningTableRepository;
 import com.dineq.dineqbe.repository.MenuRepository;
 import com.dineq.dineqbe.repository.TableOrderRepository;
@@ -17,9 +14,13 @@ import com.dineq.dineqbe.domain.enums.OrderStatus;
 
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.Comparator;
+
 
 @Service
 public class CustomerService {
@@ -93,6 +94,31 @@ public class CustomerService {
         }
 
         return groupNum;
+    }
+
+    /**
+     * 주문 내역 조회
+     * [GET] api/v1/orders/{tableId}
+     * @param tableId
+     * @return
+     */
+    public List<List<TableOrderResponseDTO>> getOrdersByTableId(Long tableId) {
+        List<TableOrderEntity> orders = tableOrderRepository.findByDiningTable_DiningTableId(tableId);
+
+        if (orders.isEmpty()) {
+            throw new EntityNotFoundException("해당 테이블의 주문 내역이 없습니다.");
+        }
+
+        // groupNum 기준으로 묶기
+        Map<String, List<TableOrderResponseDTO>> grouped = orders.stream()
+                .collect(Collectors.groupingBy(
+                        TableOrderEntity::getGroupNum,
+                        Collectors.mapping(TableOrderResponseDTO::fromEntity, Collectors.toList())
+                ));
+
+        return grouped.values().stream()
+                .sorted((g1, g2) -> g2.get(0).getOrderTime().compareTo(g1.get(0).getOrderTime()))
+                .collect(Collectors.toList());
     }
 
 }
