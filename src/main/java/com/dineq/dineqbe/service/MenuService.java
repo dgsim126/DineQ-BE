@@ -1,10 +1,8 @@
 package com.dineq.dineqbe.service;
 
+import com.dineq.dineqbe.domain.entity.CategoryEntity;
 import com.dineq.dineqbe.domain.entity.MenuEntity;
-import com.dineq.dineqbe.dto.menu.MenuPriorityRequestDTO;
-import com.dineq.dineqbe.dto.menu.MenuRequestDTO;
-import com.dineq.dineqbe.dto.menu.MenuResponseDTO;
-import com.dineq.dineqbe.dto.menu.MenuUpdateRequestDTO;
+import com.dineq.dineqbe.dto.menu.*;
 import com.dineq.dineqbe.repository.CategoryRepository;
 import com.dineq.dineqbe.repository.MenuRepository;
 import org.springframework.stereotype.Service;
@@ -50,8 +48,11 @@ public class MenuService {
             throw new IllegalArgumentException("Menu= '" + menuRequestDTO.getMenuName() + "' already exists.");
         }
 
+        CategoryEntity category = categoryRepository.findById(menuRequestDTO.getCategoryId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid categoryId: " + menuRequestDTO.getCategoryId()));
+
         MenuEntity menuEntity = new MenuEntity(
-                menuRequestDTO.getCategoryId(),
+                category,
                 menuRequestDTO.getMenuName(),
                 menuRequestDTO.getMenuPrice(),
                 menuRequestDTO.getMenuInfo(),
@@ -103,6 +104,7 @@ public class MenuService {
         menuRepository.deleteById(menuId);
     }
 
+    // 메뉴 우선순위 변경
     @Transactional
     public void updatePriorities(List<MenuPriorityRequestDTO> priorities) {
         for (MenuPriorityRequestDTO menuPriorityRequestDTO : priorities) {
@@ -112,5 +114,15 @@ public class MenuService {
                 menuEntity.setMenuPriority(menuPriorityRequestDTO.getMenuPriority());
             }
         }
+    }
+
+    // 메뉴 판매 여부 변경
+    @Transactional
+    public void changeAvailable(Long menuId, MenuAvailableRequestDTO request) {
+        MenuEntity menuEntity = menuRepository.findById(menuId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 메뉴를 찾을 수 없습니다. menuId=" + menuId));
+
+        menuEntity.setOnSale(request.getOn_sale());
+
     }
 }

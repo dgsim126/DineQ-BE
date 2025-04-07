@@ -1,9 +1,6 @@
 package com.dineq.dineqbe.controller;
 
-import com.dineq.dineqbe.dto.menu.MenuPriorityUpdateRequestDTO;
-import com.dineq.dineqbe.dto.menu.MenuRequestDTO;
-import com.dineq.dineqbe.dto.menu.MenuResponseDTO;
-import com.dineq.dineqbe.dto.menu.MenuUpdateRequestDTO;
+import com.dineq.dineqbe.dto.menu.*;
 import com.dineq.dineqbe.service.MenuService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,13 +31,13 @@ public class MenuController {
     /**
      * 메뉴 추가
      * POST /api/v1/store/menus
-     * @param menuRequestDTO
+     * @param request
      * @return
      */
     @PostMapping("/menus")
-    public ResponseEntity<String> addMenu(@RequestBody MenuRequestDTO menuRequestDTO) {
+    public ResponseEntity<String> addMenu(@RequestBody MenuRequestDTO request) {
         try{
-            menuService.addMenu(menuRequestDTO);
+            menuService.addMenu(request);
             return ResponseEntity.ok("Menu added successfully");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(400).body(e.getMessage());
@@ -51,13 +48,13 @@ public class MenuController {
      * 메뉴 수정
      * PUT /api/v1/store/menus/{menuId}
      * @param menuId
-     * @param menuRequestDTO
+     * @param request
      * @return
      */
     @PutMapping("/menus/{menuId}")
-    public ResponseEntity<String> updateMenu(@PathVariable Long menuId, @RequestBody MenuUpdateRequestDTO menuRequestDTO) {
+    public ResponseEntity<String> updateMenu(@PathVariable Long menuId, @RequestBody MenuUpdateRequestDTO request) {
         try{
-            menuService.updateMenu(menuId, menuRequestDTO);
+            menuService.updateMenu(menuId, request);
             return ResponseEntity.ok("Menu updated successfully");
         }catch (IllegalArgumentException e) {
             return ResponseEntity.status(400).body(e.getMessage());
@@ -80,9 +77,26 @@ public class MenuController {
         }
     }
 
+    /**
+     * 메뉴 우선순위 변경
+     * PUT /api/v1/store/menus/sort
+     * @param request
+     * @return
+     */
     @PutMapping("/menus/sort")
     public ResponseEntity<String> sortMenu(@RequestBody MenuPriorityUpdateRequestDTO request) {
         menuService.updatePriorities(request.getPriorities());
         return ResponseEntity.status(200).body("Menu sorted successfully");
+    }
+
+    @PutMapping("/menus/{menuId}/available")
+    public ResponseEntity<String> availableMenu(@PathVariable Long menuId, @RequestBody MenuAvailableRequestDTO request) {
+        try{
+            menuService.changeAvailable(menuId, request);
+            return ResponseEntity.status(200).body("Menu available successfully");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+
     }
 }
