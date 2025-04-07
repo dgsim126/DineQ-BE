@@ -18,6 +18,7 @@ public class MenuEntity {
     private String menuName;
     private Integer menuPrice;
 
+    @Column(nullable = false)
     @Builder.Default
     private Boolean onSale = true;
 
@@ -29,9 +30,8 @@ public class MenuEntity {
     @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
 
-    public MenuEntity(Long category, String menuName, Integer menuPrice, String menuInfo, Integer menuPriority, String menuImage, boolean onSale) {
-        this.category = new CategoryEntity();
-        this.category.setCategoryId(category);
+    public MenuEntity(CategoryEntity category, String menuName, Integer menuPrice, String menuInfo, Integer menuPriority, String menuImage, Boolean onSale) {
+        this.category= category;
         this.menuName = menuName;
         this.menuPrice = menuPrice;
         this.menuInfo = menuInfo;
