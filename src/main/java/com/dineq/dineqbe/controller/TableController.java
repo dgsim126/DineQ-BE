@@ -2,10 +2,7 @@ package com.dineq.dineqbe.controller;
 
 import com.dineq.dineqbe.service.TableService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/store")
@@ -21,5 +18,11 @@ public class TableController {
     public ResponseEntity<String> addTable() {
         tableService.addTable();
         return ResponseEntity.ok("Table added successfully");
+    }
+
+    @DeleteMapping("/tables")
+    public ResponseEntity<String> deleteTable() {
+        tableService.deleteTable();
+        return ResponseEntity.ok("Table deleted successfully");
     }
 }

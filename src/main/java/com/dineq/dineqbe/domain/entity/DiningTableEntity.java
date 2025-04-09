@@ -17,6 +17,8 @@ public class DiningTableEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long diningTableId;
 
+    private Long tableNumber;
+
     @OneToMany(mappedBy = "diningTable", cascade = CascadeType.ALL)
     private List<TableOrderEntity> tableOrders;
 }

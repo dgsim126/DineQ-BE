@@ -14,7 +14,18 @@ public class TableService {
     }
 
     public void addTable() {
-        DiningTableEntity diningTableEntity = new DiningTableEntity();
+        Long maxTableNumber = diningTableRepository.findMaxTableNumber();
+        Long nextTableNumber = maxTableNumber + 1;
+
+        DiningTableEntity diningTableEntity = new DiningTableEntity(null, nextTableNumber, null);
         diningTableRepository.save(diningTableEntity);
+    }
+
+    public void deleteTable() {
+        DiningTableEntity target= diningTableRepository.findTopByMaxTableNumber();
+        if(target==null) {
+            throw new IllegalArgumentException("삭제할 테이블 존재하지 않음");
+        }
+        diningTableRepository.delete(target);
     }
 }
