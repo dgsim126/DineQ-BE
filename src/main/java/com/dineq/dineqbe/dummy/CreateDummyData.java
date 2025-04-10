@@ -42,8 +42,11 @@ public class CreateDummyData {
     }
 
     private void insertTable1Data() {
-        for (int i = 0; i < 8; i++) {
-            diningTableRepository.save(new DiningTableEntity()); // ID는 자동 증가
+        for (int i = 1; i <= 8; i++) {
+            DiningTableEntity table = DiningTableEntity.builder()
+                    .tableNumber((long) i)
+                    .build();
+            diningTableRepository.save(table);
         }
         System.out.println("DiningTable 데이터 삽입 완료!");
     }

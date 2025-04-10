@@ -2,6 +2,7 @@ package com.dineq.dineqbe.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,9 +17,9 @@ public class PaymentHistoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentHistoryId;
 
-    private Integer orderId;
+    private Long orderId;
     private String menuName;
-    private Integer diningTableId;
+    private Long diningTableId;
     private Integer quantity;
     private Integer totalPrice;
     private LocalDateTime paymentTime;
