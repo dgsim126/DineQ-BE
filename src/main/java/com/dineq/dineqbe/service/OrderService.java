@@ -79,4 +79,16 @@ public class OrderService {
         tableOrderEntity.setStatus(OrderStatus.valueOf("COMPLETED"));
         tableOrderRepository.save(tableOrderEntity);
     }
+
+    // orderId에 해당하는 주문내역 지우기
+    public void cancelOneOrder(Long orderId) {
+        if (orderId == null) {
+            throw new IllegalArgumentException("orderId가 비어있음");
+        }
+
+        TableOrderEntity tableOrderEntity= tableOrderRepository.findById(orderId)
+                .orElseThrow(()->new IllegalArgumentException("orderId "+ orderId +"에 해당되는 주문이 존재하지 않음"));
+
+        tableOrderRepository.delete(tableOrderEntity);
+    }
 }

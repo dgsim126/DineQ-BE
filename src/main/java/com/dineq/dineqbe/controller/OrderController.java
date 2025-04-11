@@ -60,4 +60,20 @@ public class OrderController {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
+
+    /**
+     * 개별 주문 취소
+     * DELETE /api/v1/store/orders/one/{orderId}/cancel
+     * @param orderId
+     * @return
+     */
+    @DeleteMapping("/orders/one/{orderId}/cancel")
+    public ResponseEntity<String> cancelOneOrder(@PathVariable Long orderId) {
+        try{
+            orderService.cancelOneOrder(orderId);
+            return ResponseEntity.ok(orderId + " 주문이 취소되었습니다");
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }
