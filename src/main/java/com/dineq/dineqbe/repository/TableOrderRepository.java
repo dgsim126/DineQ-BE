@@ -12,4 +12,7 @@ public interface TableOrderRepository extends JpaRepository<TableOrderEntity, Lo
     List<TableOrderEntity> findByDiningTable_DiningTableId(Long diningTableId);
 
     List<TableOrderEntity> findByStatus(OrderStatus status);
+
+    List<TableOrderEntity> findAllByGroupNum(String groupNum);
+
 }

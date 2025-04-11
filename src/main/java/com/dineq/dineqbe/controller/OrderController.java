@@ -76,4 +76,20 @@ public class OrderController {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
+
+    /**
+     * 전체 주문 취소
+     * DELETE /api/v1/store/orders/all/{groupNum}/cancel
+     * @param groupNum
+     * @return
+     */
+    @DeleteMapping("/orders/all/{groupNum}/cancel")
+    public ResponseEntity<String> cancelAll(@PathVariable String groupNum) {
+        try{
+            orderService.cancelAll(groupNum);
+            return ResponseEntity.ok(groupNum + " 주문이 취소되었습니다");
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }

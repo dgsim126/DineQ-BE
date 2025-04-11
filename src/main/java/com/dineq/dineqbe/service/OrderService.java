@@ -91,4 +91,18 @@ public class OrderService {
 
         tableOrderRepository.delete(tableOrderEntity);
     }
+
+    // groupNum에 해당하는 주문내역 지우기
+    public void cancelAll(String groupNum) {
+        if(groupNum == null) {
+            throw new IllegalArgumentException("groupNum이 비어있음");
+        }
+
+        List<TableOrderEntity> tableOrderEntities = tableOrderRepository.findAllByGroupNum(groupNum);
+
+        if(tableOrderEntities.isEmpty()) {
+            throw new IllegalArgumentException(groupNum + " groupNum에 해당하는 주문내역이 존재하지 않음");
+        }
+        tableOrderRepository.deleteAll(tableOrderEntities);
+    }
 }
