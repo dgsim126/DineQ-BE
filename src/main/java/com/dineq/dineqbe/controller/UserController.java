@@ -16,14 +16,31 @@ public class UserController {
 
     /**
      * 회원가입
+     * POST /api/v1/auth/register
      * @param dto
      * @return
      */
     @PostMapping("/register")
-    public ResponseEntity<String> signUp(@RequestBody SignUpRequestDTO dto) {
+    public ResponseEntity<String> signUpAsUser(@RequestBody SignUpRequestDTO dto) {
         try {
-            userService.signUp(dto);
+            userService.signUpAsUser(dto);
             return ResponseEntity.ok("회원가입 성공");
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
+        }
+    }
+
+    /**
+     * 관리자 회원가입
+     * POST /api/v1/auth/register/admin
+     * @param dto
+     * @return
+     */
+    @PostMapping("/register/admin")
+    public ResponseEntity<String> signUpAsAdmin(@RequestBody SignUpRequestDTO dto) {
+        try {
+            userService.signUpAsAdmin(dto);
+            return ResponseEntity.ok("관리자 회원가입 성공");
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
         }

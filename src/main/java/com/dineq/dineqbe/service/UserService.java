@@ -21,9 +21,10 @@ public class UserService {
 
     /**
      * 회원가입
+     * POST /api/v1/auth/register
      * @param dto
      */
-    public void signUp(SignUpRequestDTO dto) {
+    public void signUpAsUser(SignUpRequestDTO dto) {
         if (userRepository.existsByUsername(dto.getUsername())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 사용자입니다.");
         }
@@ -39,7 +40,28 @@ public class UserService {
     }
 
     /**
+     * 관리자 회원가입
+     * POST /api/v1/auth/register/admin
+     * @param dto
+     */
+    public void signUpAsAdmin(SignUpRequestDTO dto) {
+        if (userRepository.existsByUsername(dto.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 사용자입니다.");
+        }
+
+        UserEntity user = UserEntity.builder()
+                .username(dto.getUsername())
+                .password(passwordEncoder.encode(dto.getPassword()))
+                .userType(UserType.ADMIN)  // 기본 USER
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        userRepository.save(user);
+    }
+
+    /**
      * 회원 탈퇴
+     * DELETE /api/v1/auth/profile/{userId}
      * @param userId
      */
     public void deleteUserById(Long userId) {
