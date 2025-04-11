@@ -18,6 +18,8 @@ public class OrderService {
         this.tableOrderRepository = tableOrderRepository;
     }
 
+
+    // status에 따른 주문 내역 확인
     public List<OrderResponseDTO> getOrderByStatus(String status) {
 
         if (status == null || status.isBlank()) {
@@ -41,5 +43,40 @@ public class OrderService {
             throw new IllegalArgumentException("유효하지 않은 주문 상태: " + status);
         }
 
+    }
+
+    // 요청된주문 -> 요리중인 주문
+    public void acceptOrder(Long orderId) {
+        if (orderId == null) {
+            throw new IllegalArgumentException("orderId가 비어있음");
+        }
+
+        TableOrderEntity tableOrderEntity= tableOrderRepository.findById(orderId)
+                .orElseThrow(()->new IllegalArgumentException("orderId "+ orderId +"에 해당되는 주문이 존재하지 않음"));
+
+        if(tableOrderEntity.getStatus()!=OrderStatus.valueOf("REQUESTED")){
+            throw new IllegalArgumentException("상태가 REQUESTED가 아닌 주문을 변경할 수 없습니다");
+        }
+
+
+        tableOrderEntity.setStatus(OrderStatus.valueOf("COOKING"));
+        tableOrderRepository.save(tableOrderEntity);
+    }
+
+    // 요리중인 주문 -> 완료된 주문
+    public void completeOrder(Long orderId) {
+        if (orderId == null) {
+            throw new IllegalArgumentException("orderId가 비어있음");
+        }
+
+        TableOrderEntity tableOrderEntity= tableOrderRepository.findById(orderId)
+                .orElseThrow(()->new IllegalArgumentException("orderId "+ orderId +"에 해당되는 주문이 존재하지 않음"));
+
+        if(tableOrderEntity.getStatus()!=OrderStatus.valueOf("COOKING")){
+            throw new IllegalArgumentException("상태가 COOKING이 아닌 주문을 변경할 수 없습니다");
+        }
+
+        tableOrderEntity.setStatus(OrderStatus.valueOf("COMPLETED"));
+        tableOrderRepository.save(tableOrderEntity);
     }
 }
