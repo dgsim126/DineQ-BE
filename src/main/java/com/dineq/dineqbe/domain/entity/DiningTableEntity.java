@@ -19,6 +19,9 @@ public class DiningTableEntity {
 
     private Long tableNumber;
 
+    @Column(nullable = false)
+    private Boolean activated = false;
+
     @OneToMany(mappedBy = "diningTable", cascade = CascadeType.ALL)
     private List<TableOrderEntity> tableOrders;
 }

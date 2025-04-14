@@ -21,24 +21,24 @@ public class TableController {
 
     /**
      * 테이블 추가
-     * POST /api/v1/store/tables
+     * POST /api/v1/store/tables/add
      * @return
      */
-    @PostMapping("/tables")
+    @PostMapping("/tables/add")
     public ResponseEntity<String> addTable() {
-        tableService.addTable();
-        return ResponseEntity.ok("Table added successfully");
+        String message = tableService.addTable();
+        return ResponseEntity.ok(message);
     }
 
     /**
      * 테이블 삭제
-     * DELETE /api/v1/store/tables
+     * POST /api/v1/store/tables/delete
      * @return
      */
-    @DeleteMapping("/tables")
+    @PostMapping("/tables/delete")
     public ResponseEntity<String> deleteTable() {
-        tableService.deleteTable();
-        return ResponseEntity.ok("Table deleted successfully");
+        String message = tableService.deleteTable();
+        return ResponseEntity.ok(message);
     }
 
     /**
