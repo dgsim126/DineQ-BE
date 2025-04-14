@@ -31,9 +31,11 @@ public class SecurityConfig {
                                 "/api/v1/menus/**",
                                 "/api/v1/orders",
                                 "/api/v1/orders/**",
-
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**"
+                                "/v3/api-docs/**",
+                                "api/v1/register/**",
+                                "/qrcode-test.html",                   // 테스트용 나중에 지울 것
+                                "/css/**", "/js/**", "/images/**"  // 테스트용 나중에 지울 것
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
