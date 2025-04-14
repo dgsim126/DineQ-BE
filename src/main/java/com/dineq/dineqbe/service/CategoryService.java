@@ -1,12 +1,16 @@
 package com.dineq.dineqbe.service;
 
 import com.dineq.dineqbe.domain.entity.CategoryEntity;
+import com.dineq.dineqbe.dto.category.CategoryPriorityRequestDTO;
 import com.dineq.dineqbe.dto.category.CategoryRequestDTO;
+import com.dineq.dineqbe.dto.category.CategoryResponseDTO;
 import com.dineq.dineqbe.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -15,6 +19,18 @@ public class CategoryService {
 
     public CategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
+    }
+
+    // 모든 카테고리 조회
+    public List<CategoryResponseDTO> getAllCategory() {
+        return categoryRepository.findAll().stream()
+                .map(category -> new CategoryResponseDTO(
+                        category.getCategoryId(),
+                        category.getCategoryName(),
+                        category.getCategoryDesc(),
+                        category.getCategoryPriority()
+                ))
+                .collect(Collectors.toList());
     }
 
     // 카테고리 추가
@@ -31,7 +47,7 @@ public class CategoryService {
     }
 
     // 카테고리 수정
-    public void updateCategory(Integer categoryId, CategoryRequestDTO categoryRequestDTO) {
+    public void updateCategory(Long categoryId, CategoryRequestDTO categoryRequestDTO) {
 
         boolean isCategory= categoryRepository.existsByCategoryId(categoryId);
 
@@ -53,12 +69,24 @@ public class CategoryService {
     }
 
     // 카테고리 삭제
-    public void deleteCategory(Integer categoryId) {
+    public void deleteCategory(Long categoryId) {
 
         boolean isCategory= categoryRepository.existsByCategoryId(categoryId);
         if(!isCategory){
             throw new IllegalArgumentException("Category= '" + categoryId + "' does not exist.");
         }
         categoryRepository.deleteById(categoryId);
+    }
+
+    @Transactional
+    public void updateCategory(List<CategoryPriorityRequestDTO> priorities) {
+        for (CategoryPriorityRequestDTO categoryPriorityRequestDTO : priorities) {
+            CategoryEntity categoryEntity= categoryRepository.findById(categoryPriorityRequestDTO.getCategoryId()).orElse(null);
+
+            if(categoryEntity!=null){
+                categoryEntity.setCategoryPriority(categoryPriorityRequestDTO.getCategoryPriority());
+            }
+
+        }
     }
 }

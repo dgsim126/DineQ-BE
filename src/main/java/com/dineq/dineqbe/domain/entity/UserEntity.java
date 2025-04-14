@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private Long userId;
 
     @Enumerated(EnumType.STRING)
     private UserType userType;

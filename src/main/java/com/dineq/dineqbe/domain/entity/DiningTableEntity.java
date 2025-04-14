@@ -15,7 +15,12 @@ import java.util.List;
 public class DiningTableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer diningTableId;
+    private Long diningTableId;
+
+    private Long tableNumber;
+
+    @Column(nullable = false)
+    private Boolean activated = false;
 
     @OneToMany(mappedBy = "diningTable", cascade = CascadeType.ALL)
     private List<TableOrderEntity> tableOrders;

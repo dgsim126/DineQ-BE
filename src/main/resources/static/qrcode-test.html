@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QR 리다이렉트 테스트</title>
+</head>
+<body>
+<h2>QR 등록 테스트</h2>
+
+<label for="tableId">테이블 번호:</label>
+<input type="text" id="tableId" value="5" />
+<button onclick="submitQR()">등록 요청</button>
+
+<script>
+    function submitQR() {
+        const tableId = document.getElementById("tableId").value;
+        const form = document.createElement("form");
+
+        form.method = "POST";
+        form.action = `http://localhost:8080/api/v1/register/QR/${tableId}`;
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+</body>
+</html>

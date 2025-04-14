@@ -3,6 +3,7 @@ package com.dineq.dineqbe.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,14 +15,14 @@ import java.time.LocalDate;
 public class PaymentHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer paymentHistoryId;
+    private Long paymentHistoryId;
 
-    private Integer orderId;
+    private Long orderId;
     private String menuName;
-    private Integer diningTableId;
+    private Long diningTableId;
     private Integer quantity;
     private Integer totalPrice;
-    private LocalDate paymentTime;
-    private LocalDate createdAt;
+    private LocalDateTime paymentTime;
+    private LocalDateTime createdAt;
     private String groupNum;
 }
