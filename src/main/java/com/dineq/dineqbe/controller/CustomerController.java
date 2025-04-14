@@ -5,6 +5,7 @@ import com.dineq.dineqbe.dto.customer.MenuResponseDTO;
 import com.dineq.dineqbe.dto.customer.TableOrderRequestDTO;
 import com.dineq.dineqbe.dto.customer.TableOrderResponseDTO;
 import com.dineq.dineqbe.service.CustomerService;
+import com.dineq.dineqbe.service.QRService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,11 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final QRService qrService;
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, QRService qrService) {
         this.customerService = customerService;
+        this.qrService = qrService;
     }
 
     /**
@@ -60,10 +63,20 @@ public class CustomerController {
      * @return status 200, status 404, status 500
      */
     @PostMapping("/orders")
-    public ResponseEntity<?> createOrder(@RequestBody TableOrderRequestDTO request) {
+    public ResponseEntity<?> createOrder(@RequestBody TableOrderRequestDTO request,
+                                         @RequestHeader("token") String token,
+                                         @RequestHeader("tableId") String tableId) {
+
         try {
-            String groupNum = customerService.createOrder(request);
-            return ResponseEntity.ok().body("주문이 완료되었습니다. 주문 번호: " + groupNum);
+            if(request.getTableId().toString().equals(tableId)) {
+                qrService.verifyToken(token, tableId);
+                String groupNum = customerService.createOrder(request);
+                return ResponseEntity.ok().body("주문이 완료되었습니다. 주문 번호: " + groupNum);
+            }else{
+                return ResponseEntity.status(400).body("요청한 tableId와 헤더에 담긴 tableId가 일치하지 않음");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(e.getMessage());
@@ -80,10 +93,18 @@ public class CustomerController {
      * @return status 200, status 404, status 500
      */
     @GetMapping("/orders/{tableId}")
-    public ResponseEntity<?> getOrdersByTable(@PathVariable Long tableId) {
+    public ResponseEntity<?> getOrdersByTable(@PathVariable Long tableId,
+                                              @RequestHeader("token") String token,
+                                              @RequestHeader("tableId") String tableID) {
         try {
-            List<List<TableOrderResponseDTO>> groupedOrders = customerService.getOrdersByTableId(tableId);
-            return ResponseEntity.ok(groupedOrders);
+            if(tableId.toString().equals(tableID)) {
+                qrService.verifyToken(token, tableID);
+                List<List<TableOrderResponseDTO>> groupedOrders = customerService.getOrdersByTableId(tableId);
+                return ResponseEntity.ok(groupedOrders);
+            }
+            return ResponseEntity.status(400).body("요청한 tableId와 헤더에 담긴 tableId가 일치하지 않음");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {

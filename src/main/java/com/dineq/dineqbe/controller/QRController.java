@@ -18,6 +18,12 @@ public class QRController {
         this.qrService = qrService;
     }
 
+    /**
+     * 토큰 만들어서 프론트로 리다이렉트
+     * POST /api/v1/register/QR/{tableId}
+     * @param tableId
+     * @return
+     */
     @PostMapping("/QR/{tableId}")
     public ResponseEntity<String> registerQR(@PathVariable String tableId) {
         String randomToken= qrService.registerQR(tableId);

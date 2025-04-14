@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QRRepository extends JpaRepository<QREntity, Long> {
+    boolean existsByTokenAndTableId(String token, String tableId);
 }
