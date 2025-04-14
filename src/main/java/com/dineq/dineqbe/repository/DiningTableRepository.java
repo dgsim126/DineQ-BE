@@ -7,14 +7,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DiningTableRepository extends JpaRepository<DiningTableEntity, Long>  {
 
-    @Query("SELECT COALESCE(MAX(d.tableNumber), 0) FROM DiningTableEntity d")
-    Long findMaxTableNumber();
+    // 테이블 추가용
+    // 비활성화된 테이블 중 가장 앞 번호
+    Optional<DiningTableEntity> findFirstByActivatedFalseOrderByTableNumberAsc();
 
-    @Query("SELECT d FROM DiningTableEntity d WHERE d.tableNumber = (SELECT MAX(d2.tableNumber) FROM DiningTableEntity d2)")
-    DiningTableEntity findTopByMaxTableNumber();
+    // 테이블 삭제용
+    // 활성화된 테이블 중 가장 뒤 번호
+    Optional<DiningTableEntity> findFirstByActivatedTrueOrderByTableNumberDesc();
 
 }

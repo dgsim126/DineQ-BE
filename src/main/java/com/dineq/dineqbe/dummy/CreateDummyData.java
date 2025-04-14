@@ -42,9 +42,13 @@ public class CreateDummyData {
     }
 
     private void insertTable1Data() {
-        for (int i = 1; i <= 8; i++) {
+        int maxTables = 50; // 최대 50개
+        int activeCount = 20; // 20개 활성화
+
+        for (int i = 1; i <= maxTables; i++) {
             DiningTableEntity table = DiningTableEntity.builder()
                     .tableNumber((long) i)
+                    .activated(i <= activeCount)  // 앞 20개는 true, 나머지는 false
                     .build();
             diningTableRepository.save(table);
         }

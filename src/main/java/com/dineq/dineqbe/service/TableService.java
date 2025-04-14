@@ -28,21 +28,27 @@ public class TableService {
     }
 
     // 테이블 추가
-    public void addTable() {
-        Long maxTableNumber = diningTableRepository.findMaxTableNumber();
-        Long nextTableNumber = maxTableNumber + 1;
+    // 비활성화된 테이블 중 가장 앞번호 활성화
+    @Transactional
+    public String addTable() {
+        DiningTableEntity inactiveTable = diningTableRepository
+                .findFirstByActivatedFalseOrderByTableNumberAsc()
+                .orElseThrow(() -> new IllegalStateException("더 이상 추가할 수 있는 테이블이 없습니다."));
 
-        DiningTableEntity diningTableEntity = new DiningTableEntity(null, nextTableNumber, null);
-        diningTableRepository.save(diningTableEntity);
+        inactiveTable.setActivated(true);
+        return inactiveTable.getTableNumber() + "번 테이블 추가";
     }
 
     // 테이블 삭제
-    public void deleteTable() {
-        DiningTableEntity target= diningTableRepository.findTopByMaxTableNumber();
-        if(target==null) {
-            throw new IllegalArgumentException("삭제할 테이블 존재하지 않음");
-        }
-        diningTableRepository.delete(target);
+    // 활성화된 테이블 중 가장 뒷번호 비활성화
+    @Transactional
+    public String deleteTable() {
+        DiningTableEntity latestActiveTable = diningTableRepository
+                .findFirstByActivatedTrueOrderByTableNumberDesc()
+                .orElseThrow(() -> new IllegalStateException("삭제할 활성 테이블이 없습니다."));
+
+        latestActiveTable.setActivated(false);
+        return latestActiveTable.getTableNumber() + "번 테이블 삭제";
     }
 
     @Transactional
