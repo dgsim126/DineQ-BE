@@ -2,7 +2,9 @@ package com.dineq.dineqbe.service;
 
 import com.dineq.dineqbe.domain.entity.QREntity;
 import com.dineq.dineqbe.repository.QRRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -58,6 +60,14 @@ public class QRService {
         if(!qrRepository.existsByTokenAndTableId(token, tableId)){
             throw new IllegalArgumentException("token, tableId에 해당하는 튜플이 존재하지 않음");
         }
+    }
 
+    // 30분이 지난 QR 엔티티 삭제
+    @Scheduled(fixedRate = 600_000)
+    @Transactional
+    public void deleteExpiredTokens() {
+        LocalDateTime now = LocalDateTime.now().minusMinutes(30);
+        qrRepository.deleteByCreatedAtBefore(now);
+        System.out.println("30분 이상 지난 QR 토큰 삭제 완료 at " + LocalDateTime.now());
     }
 }
