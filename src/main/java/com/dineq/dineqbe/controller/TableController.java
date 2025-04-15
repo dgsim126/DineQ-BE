@@ -1,13 +1,9 @@
 package com.dineq.dineqbe.controller;
 
-import com.dineq.dineqbe.dto.customer.TableOrderResponseDTO;
 import com.dineq.dineqbe.service.TableService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/store")
@@ -20,7 +16,7 @@ public class TableController {
     }
 
     /**
-     * 테이블 추가
+     * 테이블 추가 (비활성화된 테이블 중 가장 앞번호 활성화)
      * POST /api/v1/store/tables/add
      * @return
      */
@@ -31,7 +27,7 @@ public class TableController {
     }
 
     /**
-     * 테이블 삭제
+     * 테이블 삭제 (활성화된 테이블 중 가장 뒷번호 비활성화)
      * POST /api/v1/store/tables/delete
      * @return
      */

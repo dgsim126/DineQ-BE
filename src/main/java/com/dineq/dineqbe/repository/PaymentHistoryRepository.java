@@ -38,4 +38,5 @@ public interface PaymentHistoryRepository extends JpaRepository<PaymentHistoryEn
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end
     );
+
 }
