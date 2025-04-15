@@ -37,11 +37,13 @@ public class SecurityConfig {
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
+
                 .formLogin(form -> form
                         .loginProcessingUrl("/api/v1/auth/login") // POST 요청 시 로그인
                         .successHandler(customAuthenticationSuccessHandler)
                         .permitAll()
                 )
+
                 .logout(logout -> logout
                         .logoutUrl("/api/v1/logout") // POST 요청 시 로그아웃
                         .logoutSuccessHandler((request, response, authentication) -> {
@@ -55,10 +57,12 @@ public class SecurityConfig {
                             response.setStatus(HttpServletResponse.SC_OK); // 200
                         })
                 )
+
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((req, res, authException) ->
                                 res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "로그인이 필요합니다."))
                 )
+
                 .csrf(AbstractHttpConfigurer::disable)  // CSRF 비활성화
                 .httpBasic(AbstractHttpConfigurer::disable); // 기본 인증 비활성화
 
