@@ -21,4 +21,5 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         // 상태 코드만 설정 (200 OK)
         response.setStatus(HttpServletResponse.SC_OK);
     }
+
 }

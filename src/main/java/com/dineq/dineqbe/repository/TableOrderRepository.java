@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface TableOrderRepository extends JpaRepository<TableOrderEntity, Long> {
+
     List<TableOrderEntity> findByDiningTable_DiningTableId(Long diningTableId);
 
     List<TableOrderEntity> findByStatus(OrderStatus status);
