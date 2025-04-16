@@ -1,6 +1,8 @@
 package com.dineq.dineqbe.controller;
 
 import com.dineq.dineqbe.dto.menu.OrderResponseDTO;
+import com.dineq.dineqbe.dto.menu.OrderStatusUpdateRequestDTO;
+import com.dineq.dineqbe.dto.menu.OrderStatusUpdateResponseDTO;
 import com.dineq.dineqbe.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,35 +32,27 @@ public class OrderController {
     }
 
     /**
-     * 주문 요청 수락(요청된 주문 → 요리중인 주문)
-     * PUT /api/v1/store/orders/{orderId}/accept
-     * @param orderId
+     * 주문 요청 수락 (요청된 주문 → 요리중인 주문)
+     * PUT /api/v1/store/orders/accept
+     * @param request
      * @return
      */
-    @PutMapping("/orders/{orderId}/accept")
-    public ResponseEntity<String> acceptOrder(@PathVariable Long orderId) {
-        try{
-            orderService.acceptOrder(orderId);
-            return ResponseEntity.ok("요청된 주문이 요리중인 상태로 넘어갔습니다.");
-        } catch (IllegalArgumentException e){
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
+    @PutMapping("/orders/accept")
+    public ResponseEntity<OrderStatusUpdateResponseDTO> acceptOrders(@RequestBody OrderStatusUpdateRequestDTO request) {
+        OrderStatusUpdateResponseDTO result = orderService.acceptOrders(request.getOrderId());
+        return ResponseEntity.ok(result);
     }
 
     /**
      * 조리 완료 (요리중인 주문 → 완료된 주문)
-     * PUT /api/v1/store/orders/{orderId}/complete
-     * @param orderId
+     * PUT /api/v1/store/orders/complete
+     * @param request
      * @return
      */
-    @PutMapping("/orders/{orderId}/complete")
-    public ResponseEntity<String> completeOrder(@PathVariable Long orderId) {
-        try{
-            orderService.completeOrder(orderId);
-            return ResponseEntity.ok("요리중인 주문이 완료된 주문으로 넘어갔습니다.");
-        }catch(IllegalArgumentException e){
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
+    @PutMapping("/orders/complete")
+    public ResponseEntity<OrderStatusUpdateResponseDTO> completeOrders(@RequestBody OrderStatusUpdateRequestDTO request) {
+        OrderStatusUpdateResponseDTO result = orderService.completeOrders(request.getOrderId());
+        return ResponseEntity.ok(result);
     }
 
     /**
