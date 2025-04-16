@@ -3,9 +3,11 @@ package com.dineq.dineqbe.controller;
 import com.dineq.dineqbe.service.QRService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/api/v1/register")
 public class QRController {
 
@@ -13,6 +15,19 @@ public class QRController {
 
     public QRController(QRService qrService) {
         this.qrService = qrService;
+    }
+
+    /**
+     * 큐알코드를 찍었을 때 첫 동작
+     * GET /api/v1/register/QR/{tableId}
+     * @param tableId
+     * @param model
+     * @return
+     */
+    @GetMapping("/QR/{tableId}")
+    public String pictureQR(@PathVariable String tableId, Model model) {
+        model.addAttribute("tableId", tableId);
+        return "redirect:/QR.html";
     }
 
     /**
