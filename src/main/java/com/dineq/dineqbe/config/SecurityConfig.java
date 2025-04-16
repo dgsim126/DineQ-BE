@@ -93,7 +93,8 @@ public class SecurityConfig {
 
         config.setAllowCredentials(true); // 쿠키 전송 허용
         config.setAllowedOrigins(List.of(
-                "http://localhost:3000"
+                "http://localhost:3000",
+                "https://dineq.loseyourip.com"
         )); // 프론트 주소
 
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
