@@ -4,6 +4,8 @@ import com.dineq.dineqbe.dto.user.SignUpRequestDTO;
 import com.dineq.dineqbe.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -60,4 +62,22 @@ public class UserController {
             return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
         }
     }
+
+    /**
+     * 로그인 여부 확인
+     * @return
+     */
+    @GetMapping("/check")
+    public ResponseEntity<?> checkLoginStatus() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        // 인증되지 않은 경우 (로그인 안 되어있는 경우)
+        if (auth == null || !auth.isAuthenticated() || auth.getPrincipal().equals("anonymousUser")) {
+            return ResponseEntity.status(401).body("로그인 안됨");
+        }
+
+        // 인증된 경우 (로그인 되어있는 경우)
+        return ResponseEntity.ok("로그인 됨 (사용자: " + auth.getName() + ")");
+    }
+
 }
