@@ -3,12 +3,14 @@ package com.dineq.dineqbe.service;
 import com.dineq.dineqbe.domain.entity.TableOrderEntity;
 import com.dineq.dineqbe.domain.enums.OrderStatus;
 import com.dineq.dineqbe.dto.menu.OrderResponseDTO;
+import com.dineq.dineqbe.dto.menu.OrderStatusUpdateResponseDTO;
 import com.dineq.dineqbe.repository.TableOrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,39 +52,70 @@ public class OrderService {
     }
 
     // 요청된주문 -> 요리중인 주문
-    public void acceptOrder(Long orderId) {
-        if (orderId == null) {
-            throw new IllegalArgumentException("orderId가 비어있음");
+    public OrderStatusUpdateResponseDTO acceptOrders(List<Long> orderIds) {
+        List<Long> success = new ArrayList<>();
+        List<OrderStatusUpdateResponseDTO.FailedOrderDTO> failed = new ArrayList<>();
+        List<TableOrderEntity> toSave = new ArrayList<>();
+
+        for (Long orderId : orderIds) {
+            Optional<TableOrderEntity> optionalOrder = tableOrderRepository.findById(orderId);
+            if (optionalOrder.isEmpty()) {
+                failed.add(new OrderStatusUpdateResponseDTO.FailedOrderDTO(orderId, "주문이 존재하지 않습니다."));
+                continue;
+            }
+
+            TableOrderEntity order = optionalOrder.get();
+
+            if (order.getStatus() != OrderStatus.REQUESTED) {
+                failed.add(new OrderStatusUpdateResponseDTO.FailedOrderDTO(orderId, "해당 주문은 REQUESTED 상태가 아닙니다."));
+                continue;
+            }
+
+            order.setStatus(OrderStatus.COOKING);
+            toSave.add(order);
+            success.add(orderId);
         }
 
-        TableOrderEntity tableOrderEntity= tableOrderRepository.findById(orderId)
-                .orElseThrow(()->new IllegalArgumentException("orderId "+ orderId +"에 해당되는 주문이 존재하지 않음"));
-
-        if(tableOrderEntity.getStatus()!=OrderStatus.valueOf("REQUESTED")){
-            throw new IllegalArgumentException("상태가 REQUESTED가 아닌 주문을 변경할 수 없습니다");
+        if (!toSave.isEmpty()) {
+            tableOrderRepository.saveAll(toSave);
         }
 
-
-        tableOrderEntity.setStatus(OrderStatus.valueOf("COOKING"));
-        tableOrderRepository.save(tableOrderEntity);
+        return new OrderStatusUpdateResponseDTO(success, failed);
     }
+
 
     // 요리중인 주문 -> 완료된 주문
-    public void completeOrder(Long orderId) {
-        if (orderId == null) {
-            throw new IllegalArgumentException("orderId가 비어있음");
+    public OrderStatusUpdateResponseDTO completeOrders(List<Long> orderIds) {
+        List<Long> success = new ArrayList<>();
+        List<OrderStatusUpdateResponseDTO.FailedOrderDTO> failed = new ArrayList<>();
+        List<TableOrderEntity> toSave = new ArrayList<>();
+
+        for (Long orderId : orderIds) {
+            Optional<TableOrderEntity> optionalOrder = tableOrderRepository.findById(orderId);
+            if (optionalOrder.isEmpty()) {
+                failed.add(new OrderStatusUpdateResponseDTO.FailedOrderDTO(orderId, "주문이 존재하지 않습니다."));
+                continue;
+            }
+
+            TableOrderEntity order = optionalOrder.get();
+
+            if (order.getStatus() != OrderStatus.COOKING) {
+                failed.add(new OrderStatusUpdateResponseDTO.FailedOrderDTO(orderId, "해당 주문은 COOKING 상태가 아닙니다."));
+                continue;
+            }
+
+            order.setStatus(OrderStatus.COMPLETED);
+            toSave.add(order);
+            success.add(orderId);
         }
 
-        TableOrderEntity tableOrderEntity= tableOrderRepository.findById(orderId)
-                .orElseThrow(()->new IllegalArgumentException("orderId "+ orderId +"에 해당되는 주문이 존재하지 않음"));
-
-        if(tableOrderEntity.getStatus()!=OrderStatus.valueOf("COOKING")){
-            throw new IllegalArgumentException("상태가 COOKING이 아닌 주문을 변경할 수 없습니다");
+        if (!toSave.isEmpty()) {
+            tableOrderRepository.saveAll(toSave);
         }
 
-        tableOrderEntity.setStatus(OrderStatus.valueOf("COMPLETED"));
-        tableOrderRepository.save(tableOrderEntity);
+        return new OrderStatusUpdateResponseDTO(success, failed);
     }
+
 
     // orderId에 해당하는 주문내역 지우기
     public void cancelOneOrder(Long orderId) {
