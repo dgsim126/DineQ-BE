@@ -10,12 +10,27 @@
 <form id="qrForm" method="POST"></form>
 
 <script>
-    // 현재 URL에서 tableId 추출
-    const pathParts = window.location.pathname.split('/');
-    const tableId = pathParts[pathParts.length - 1];
+    // 쿼리 파라미터에서 tableId 추출
+    const urlParams = new URLSearchParams(window.location.search);
+    const tableId = urlParams.get("tableId");
+
+    if (!tableId) {
+        document.body.innerHTML = 'tableId가 없습니다.';
+        throw new Error('tableId 누락');
+
+
+
+
+
+    }
 
     // form action 설정 후 자동 제출
     const form = document.getElementById('qrForm');
+
+
+
+
+    
     form.action = `/api/v1/register/QR/${tableId}`;
     form.submit();
 </script>

@@ -21,13 +21,12 @@ public class QRController {
      * 큐알코드를 찍었을 때 첫 동작
      * GET /api/v1/register/QR/{tableId}
      * @param tableId
-     * @param model
      * @return
      */
     @GetMapping("/QR/{tableId}")
-    public String pictureQR(@PathVariable String tableId, Model model) {
-        model.addAttribute("tableId", tableId);
-        return "redirect:/QR.html";
+    public String pictureQR(@PathVariable String tableId) {
+        // model.addAttribute("tableId", tableId);
+        return "redirect:/QR.html?tableId=" + tableId;
     }
 
     /**
@@ -41,8 +40,8 @@ public class QRController {
         String randomToken= qrService.registerQR(tableId);
 
         // String redirectURl="http://localhost:3000/order/"+tableId+"?token="+randomToken;
-        // String redirectURl="https://honorsparking-web.vercel.app/"+tableId+"?token="+randomToken;
-        String redirectURl = "https://localhost:3000/order?tableId=" + tableId + "&token=" + randomToken;
+        String redirectURl="https://honorsparking-web.vercel.app/order?tableId="+tableId+"&token="+randomToken;
+        // String redirectURl = "https://localhost:3000/order?tableId=" + tableId + "&token=" + randomToken;
 
 
         HttpHeaders headers = new HttpHeaders();
