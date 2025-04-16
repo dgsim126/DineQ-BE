@@ -40,7 +40,7 @@ public class QRController {
         String randomToken= qrService.registerQR(tableId);
 
         // String redirectURl="http://localhost:3000/order/"+tableId+"?token="+randomToken;
-        String redirectURl="https://honorsparking-web.vercel.app/order?tableId="+tableId+"&token="+randomToken;
+        String redirectURl="https://dine-q-fe.vercel.app/order?tableId="+tableId+"&token="+randomToken;
         // String redirectURl = "https://localhost:3000/order?tableId=" + tableId + "&token=" + randomToken;
 
 
