@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -20,7 +22,7 @@ public class OrderService {
 
 
     // status에 따른 주문 내역 확인
-    public List<OrderResponseDTO> getOrderByStatus(String status) {
+    public List<List<OrderResponseDTO>> getOrderByStatus(String status) {
 
         if (status == null || status.isBlank()) {
             throw new IllegalArgumentException("주문 상태 값이 비어 있습니다.");
@@ -30,14 +32,16 @@ public class OrderService {
             OrderStatus orderStatus = OrderStatus.valueOf(status.toUpperCase());
             List<TableOrderEntity> tableOrderEntities = tableOrderRepository.findByStatus(orderStatus);
 
-            List<OrderResponseDTO> result = new ArrayList<>();
+            // Entity -> DTO
+            List<OrderResponseDTO> dtoList = tableOrderEntities.stream()
+                    .map(OrderResponseDTO::fromEntity)
+                    .toList();
 
-            for (TableOrderEntity entity : tableOrderEntities) {
-                OrderResponseDTO dto = OrderResponseDTO.fromEntity(entity);
-                result.add(dto);
-            }
+            // groupNum 기준으로 그룹핑
+            Map<String, List<OrderResponseDTO>> grouped = dtoList.stream()
+                    .collect(Collectors.groupingBy(OrderResponseDTO::getGroupNum));
 
-            return result;
+            return new ArrayList<>(grouped.values());
 
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("유효하지 않은 주문 상태: " + status);
