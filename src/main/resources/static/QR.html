@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR PROCESSING...</title>
+    <meta charset="UTF-8" />
+</head>
+<body>
+<p>잠시만 기다려주세요...</p>
+
+<form id="qrForm" method="POST">
+</form>
+
+<script>
+    const pathParts = window.location.pathname.split('/');
+    const tableId = pathParts[pathParts.length - 1];
+
+    const form = document.getElementById('qrForm');
+    form.action = `/api/v1/register/QR/${tableId}`;
+    form.submit();
+</script>
+</body>
+</html>
