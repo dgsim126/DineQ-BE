@@ -28,8 +28,10 @@ public class QRController {
     public ResponseEntity<String> registerQR(@PathVariable String tableId) {
         String randomToken= qrService.registerQR(tableId);
 
-        // String redirectURl="http://localhost:3000/"+tableId+"?token="+randomToken;
-        String redirectURl="https://honorsparking-web.vercel.app/"+tableId+"?token="+randomToken;
+        // String redirectURl="http://localhost:3000/order/"+tableId+"?token="+randomToken;
+        // String redirectURl="https://honorsparking-web.vercel.app/"+tableId+"?token="+randomToken;
+        String redirectURl = "https://localhost:3000/order?tableId=" + tableId + "&token=" + randomToken;
+
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", redirectURl);
