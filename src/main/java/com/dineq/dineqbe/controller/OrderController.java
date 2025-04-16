@@ -24,8 +24,8 @@ public class OrderController {
      * @return
      */
     @GetMapping("/orders")
-    public ResponseEntity<List<OrderResponseDTO>> getOrderByStatus(@RequestParam String status) {
-        List<OrderResponseDTO> response= orderService.getOrderByStatus(status);
+    public ResponseEntity<List<List<OrderResponseDTO>>> getOrderByStatus(@RequestParam String status) {
+        List<List<OrderResponseDTO>> response= orderService.getOrderByStatus(status);
         return ResponseEntity.ok(response);
     }
 
