@@ -68,6 +68,10 @@ public class CustomerService {
      * @return
      */
     public String createOrder(TableOrderRequestDTO request) {
+        if (request.getOrders() == null || request.getOrders().isEmpty()) {
+            throw new IllegalStateException("주문 목록이 비어 있습니다.");
+        }
+
         // 1. 주문 그룹 식별자 생성
         String groupNum = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 
