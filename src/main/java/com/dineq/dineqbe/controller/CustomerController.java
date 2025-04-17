@@ -9,6 +9,7 @@ import com.dineq.dineqbe.service.QRService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -68,21 +69,26 @@ public class CustomerController {
                                          @RequestHeader("tableId") String tableId) {
 
         try {
+            qrService.verifyToken(token, tableId);
             if(request.getTableId().toString().equals(tableId)) {
-                qrService.verifyToken(token, tableId);
                 String groupNum = customerService.createOrder(request);
                 return ResponseEntity.ok().body("주문이 완료되었습니다. 주문 번호: " + groupNum);
             }else{
                 return ResponseEntity.status(400).body("요청한 tableId와 헤더에 담긴 tableId가 일치하지 않음");
             }
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
+        } catch (IllegalArgumentException e) { // "헤더에 값이 비어있음"
+            return ResponseEntity.status(401).body(e.getMessage());
+
+        }catch(AuthenticationCredentialsNotFoundException e){ // "헤더에 담긴 token, tableId에 해당하는 튜플이 존재하지 않음"
+            return ResponseEntity.status(500).body(e.getMessage());
+
+        } catch (IllegalStateException e) {  // "body에 값이 없음(장바구니에 메뉴를 담지 않음)"
+            return ResponseEntity.status(501).body(e.getMessage());
+
+        }catch (EntityNotFoundException e) { // "존재하지 않는 테이블, 메뉴가 body에 들어왔을 때"
+            return ResponseEntity.status(502).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("주문 처리 중 오류가 발생했습니다.");
+            return ResponseEntity.status(503).body("주문 처리 중 오류가 발생했습니다.");
         }
     }
 
@@ -97,19 +103,23 @@ public class CustomerController {
                                               @RequestHeader("token") String token,
                                               @RequestHeader("tableId") String tableID) {
         try {
+            qrService.verifyToken(token, tableID);
             if(tableId.toString().equals(tableID)) {
-                qrService.verifyToken(token, tableID);
                 List<List<TableOrderResponseDTO>> groupedOrders = customerService.getOrdersByTableId(tableId);
                 return ResponseEntity.ok(groupedOrders);
             }
             return ResponseEntity.status(400).body("요청한 tableId와 헤더에 담긴 tableId가 일치하지 않음");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (IllegalArgumentException e) { // "헤더에 값이 비어있음"
+            return ResponseEntity.status(401).body(e.getMessage());
+
+        }catch(AuthenticationCredentialsNotFoundException e) { // "헤더에 담긴 token, tableId에 해당하는 튜플이 존재하지 않음"
+            return ResponseEntity.status(500).body(e.getMessage());
+
+        } catch (EntityNotFoundException e){
+            return ResponseEntity.status(501).body(e.getMessage()); // "해당 테이블의 주문 내역이 없습니다."
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("주문 내역 조회 중 오류가 발생했습니다.");
+            return ResponseEntity.status(503).body("주문 처리 중 오류가 발생했습니다.");
         }
     }
 

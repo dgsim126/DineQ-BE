@@ -3,8 +3,10 @@ package com.dineq.dineqbe.service;
 import com.dineq.dineqbe.domain.entity.QREntity;
 import com.dineq.dineqbe.repository.QRRepository;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.MissingRequestHeaderException;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -58,7 +60,7 @@ public class QRService {
             throw new IllegalArgumentException("헤더에 값이 비어있음");
         }
         if(!qrRepository.existsByTokenAndTableId(token, tableId)){
-            throw new IllegalArgumentException("token, tableId에 해당하는 튜플이 존재하지 않음");
+            throw new AuthenticationCredentialsNotFoundException("token, tableId에 해당하는 튜플이 존재하지 않음");
         }
     }
 
