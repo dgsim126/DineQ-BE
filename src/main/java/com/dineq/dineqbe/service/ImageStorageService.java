@@ -13,6 +13,9 @@ public class ImageStorageService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
+    @Value("${app.image-base-url}")
+    private String imageBaseUrl;
+
     public String saveImage(MultipartFile imageFile) throws IOException {
         String originalFilename = imageFile.getOriginalFilename();
         String filename = UUID.randomUUID() + "_" + originalFilename;
@@ -26,6 +29,6 @@ public class ImageStorageService {
         imageFile.transferTo(dest);
 
         // 클라이언트에서 접근할 수 있는 경로 반환
-        return "/images/" + filename;
+        return imageBaseUrl + filename;
     }
 }
