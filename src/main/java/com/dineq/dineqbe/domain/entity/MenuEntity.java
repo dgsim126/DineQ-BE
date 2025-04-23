@@ -22,6 +22,7 @@ public class MenuEntity {
     @Builder.Default
     private Boolean onSale = true;
 
+    @Column(unique = true)
     private Integer menuPriority;
     private String menuInfo;
     private String menuImage;

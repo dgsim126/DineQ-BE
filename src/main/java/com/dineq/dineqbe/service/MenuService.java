@@ -59,14 +59,19 @@ public class MenuService {
                 ? imageStorageService.saveImage(image)
                 : null;
 
+        Integer priority= menuRequestDTO.getMenuPriority();
+        if(priority==null){
+            Integer maxPriority= menuRepository.findMaxMenuPriority();
+            priority= (maxPriority!=null ? maxPriority : 0)+1;
+        }
+
         MenuEntity menuEntity = new MenuEntity(
                 category,
                 menuRequestDTO.getMenuName(),
                 menuRequestDTO.getMenuPrice(),
                 menuRequestDTO.getMenuInfo(),
-                menuRequestDTO.getMenuPriority(),
+                priority,
                 imageUrl,
-                // menuRequestDTO.getMenuImage(),
                 menuRequestDTO.getOnSale()
         );
 
