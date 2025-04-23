@@ -78,6 +78,7 @@ public class CategoryService {
         categoryRepository.deleteById(categoryId);
     }
 
+    // 카테고리 우선순위 변경
     @Transactional
     public void updateCategory(List<CategoryPriorityRequestDTO> priorities) {
         for (CategoryPriorityRequestDTO categoryPriorityRequestDTO : priorities) {

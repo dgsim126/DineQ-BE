@@ -43,9 +43,10 @@ public class CustomerService {
      * @return
      */
     public List<MenuListResponseDTO> getAllMenus() {
-        List<MenuEntity> menuEntities = menuRepository.findAll();
-        return menuEntities.stream()
+        return menuRepository.findAll().stream()
                 .map(MenuListResponseDTO::fromEntity)
+                .sorted(Comparator.comparing(MenuListResponseDTO::getCategoryPriority)
+                        .thenComparing(MenuListResponseDTO::getMenuPriority))
                 .collect(Collectors.toList());
     }
 

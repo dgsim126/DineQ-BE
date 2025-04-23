@@ -16,6 +16,7 @@ public class MenuListResponseDTO {
     private Integer menuPrice;
     private Boolean onSale;
     private String menuImage;
+    private Integer menuPriority;
 
     private Long categoryId;
     private String categoryName;
@@ -31,6 +32,7 @@ public class MenuListResponseDTO {
                 .categoryId(menu.getCategory().getCategoryId())
                 .categoryName(menu.getCategory().getCategoryName())
                 .categoryPriority(menu.getCategory().getCategoryPriority())
+                .menuPriority(menu.getMenuPriority())
                 .build();
     }
 }
