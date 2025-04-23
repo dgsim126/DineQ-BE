@@ -1,9 +1,16 @@
 package com.dineq.dineqbe.controller;
 
-import com.dineq.dineqbe.dto.menu.*;
+import com.dineq.dineqbe.dto.menu.MenuRequestDTO;
+import com.dineq.dineqbe.dto.menu.MenuUpdateRequestDTO;
+import com.dineq.dineqbe.dto.menu.MenuPriorityUpdateRequestDTO;
+import com.dineq.dineqbe.dto.menu.MenuAvailableRequestDTO;
+import com.dineq.dineqbe.dto.menu.MenuResponseDTO;
 import com.dineq.dineqbe.service.MenuService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -11,10 +18,12 @@ import java.util.List;
 @RequestMapping("/api/v1/store")
 public class MenuController {
 
-    private MenuService menuService;
+    private final MenuService menuService;
+    private final ObjectMapper objectMapper;
 
-    public MenuController(MenuService menuService) {
+    public MenuController(MenuService menuService, ObjectMapper objectMapper) {
         this.menuService = menuService;
+        this.objectMapper = objectMapper;
     }
 
     /**
@@ -24,23 +33,26 @@ public class MenuController {
      */
     @GetMapping("/menus")
     public ResponseEntity<List<MenuResponseDTO>> getAllMenus() {
-        List<MenuResponseDTO> menus= menuService.getAllMenu();
-        return ResponseEntity.ok(menus);
+        return ResponseEntity.ok(menuService.getAllMenu());
     }
 
     /**
      * 메뉴 추가
      * POST /api/v1/store/menus
-     * @param request
+     * @param
      * @return
      */
-    @PostMapping("/menus")
-    public ResponseEntity<String> addMenu(@RequestBody MenuRequestDTO request) {
-        try{
-            menuService.addMenu(request);
+    @PostMapping(value = "/menus", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> addMenu(
+            @RequestParam("menu") String menuJson,
+            @RequestPart(value = "image", required = false) MultipartFile image
+    ) {
+        try {
+            MenuRequestDTO request = objectMapper.readValue(menuJson, MenuRequestDTO.class);
+            menuService.addMenu(request, image);
             return ResponseEntity.ok("Menu added successfully");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
     }
 
@@ -48,16 +60,24 @@ public class MenuController {
      * 메뉴 수정
      * PUT /api/v1/store/menus/{menuId}
      * @param menuId
-     * @param request
+     * @param
      * @return
      */
-    @PutMapping("/menus/{menuId}")
-    public ResponseEntity<String> updateMenu(@PathVariable Long menuId, @RequestBody MenuUpdateRequestDTO request) {
-        try{
-            menuService.updateMenu(menuId, request);
+    @PutMapping(value = "/menus/{menuId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> updateMenu(
+            @PathVariable Long menuId,
+            @RequestParam(value = "menu", required = false) String menuJson,
+            @RequestPart(value = "image", required = false) MultipartFile image
+    ) {
+        try {
+            MenuUpdateRequestDTO request = (menuJson != null && !menuJson.isBlank())
+                    ? objectMapper.readValue(menuJson, MenuUpdateRequestDTO.class)
+                    : new MenuUpdateRequestDTO(); // 빈 DTO
+
+            menuService.updateMenu(menuId, request, image);
             return ResponseEntity.ok("Menu updated successfully");
-        }catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
     }
 
@@ -67,13 +87,13 @@ public class MenuController {
      * @param menuId
      * @return
      */
-    @DeleteMapping("menus/{menuId}")
+    @DeleteMapping("/menus/{menuId}")
     public ResponseEntity<String> deleteMenu(@PathVariable Long menuId) {
-        try{
+        try {
             menuService.deleteMenu(menuId);
             return ResponseEntity.ok("Menu deleted successfully");
-        }catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -86,17 +106,22 @@ public class MenuController {
     @PutMapping("/menus/sort")
     public ResponseEntity<String> sortMenu(@RequestBody MenuPriorityUpdateRequestDTO request) {
         menuService.updatePriorities(request.getPriorities());
-        return ResponseEntity.status(200).body("Menu sorted successfully");
+        return ResponseEntity.ok("Menu sorted successfully");
     }
 
+    /**
+     * 메뉴 활성화, 비활성화
+     * @param menuId
+     * @param request
+     * @return
+     */
     @PutMapping("/menus/{menuId}/available")
     public ResponseEntity<String> availableMenu(@PathVariable Long menuId, @RequestBody MenuAvailableRequestDTO request) {
-        try{
+        try {
             menuService.changeAvailable(menuId, request);
-            return ResponseEntity.status(200).body("Menu available successfully");
+            return ResponseEntity.ok("Menu availability updated");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
     }
 }
