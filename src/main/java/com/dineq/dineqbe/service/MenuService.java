@@ -7,7 +7,9 @@ import com.dineq.dineqbe.repository.CategoryRepository;
 import com.dineq.dineqbe.repository.MenuRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,10 +18,12 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
     private final CategoryRepository categoryRepository;
+    private final ImageStorageService imageStorageService;
 
-    public MenuService(MenuRepository menuRepository, CategoryRepository categoryRepository) {
+    public MenuService(MenuRepository menuRepository, CategoryRepository categoryRepository, ImageStorageService imageStorageService) {
         this.menuRepository = menuRepository;
         this.categoryRepository = categoryRepository;
+        this.imageStorageService = imageStorageService;
     }
     
     // 모든 메뉴 조회
@@ -40,7 +44,7 @@ public class MenuService {
 
     // 메뉴 추가
     // 프론트로부터 올바르지 않은 카테고리id를 받지 않을 것이라 가정하여 개발됨(검증 x), 문제 시 검증할 것
-    public void addMenu(MenuRequestDTO menuRequestDTO) {
+    public void addMenu(MenuRequestDTO menuRequestDTO, MultipartFile image) throws IOException {
 
         boolean isMenu= menuRepository.existsByMenuName(menuRequestDTO.getMenuName());
 
@@ -51,13 +55,18 @@ public class MenuService {
         CategoryEntity category = categoryRepository.findById(menuRequestDTO.getCategoryId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid categoryId: " + menuRequestDTO.getCategoryId()));
 
+        String imageUrl= (image!=null && !image.isEmpty())
+                ? imageStorageService.saveImage(image)
+                : null;
+
         MenuEntity menuEntity = new MenuEntity(
                 category,
                 menuRequestDTO.getMenuName(),
                 menuRequestDTO.getMenuPrice(),
                 menuRequestDTO.getMenuInfo(),
                 menuRequestDTO.getMenuPriority(),
-                menuRequestDTO.getMenuImage(),
+                imageUrl,
+                // menuRequestDTO.getMenuImage(),
                 menuRequestDTO.getOnSale()
         );
 
@@ -65,7 +74,7 @@ public class MenuService {
     }
 
     // 메뉴 수정
-    public void updateMenu(Long menuId, MenuUpdateRequestDTO menuRequestDTO) {
+    public void updateMenu(Long menuId, MenuUpdateRequestDTO menuRequestDTO, MultipartFile image) throws IOException {
 
         boolean isMenu= menuRepository.existsByMenuId(menuId);
 
@@ -86,6 +95,11 @@ public class MenuService {
         }
         if(menuRequestDTO.getMenuImage()!=null){
             menuEntity.setMenuImage(menuRequestDTO.getMenuImage());
+        }
+
+        if (image != null && !image.isEmpty()) {
+            String imageUrl = imageStorageService.saveImage(image);
+            menuEntity.setMenuImage(imageUrl);
         }
 
         // 변경된 시간 추가하려고 했는데 Entity에 속성 없음
