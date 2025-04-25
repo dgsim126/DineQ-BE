@@ -41,7 +41,8 @@ public class QRController {
         String redirectURl= "";
 
         if(!flag) {
-            redirectURl = "/QR-fail.html?tableId=" + tableId;
+            // redirectURl = "/QR-fail.html?tableId=" + tableId;
+            redirectURl= "https://dine-q-fe.vercel.app/order/expiration";
 
         }else{
             String randomToken= qrService.registerQR(tableId);
