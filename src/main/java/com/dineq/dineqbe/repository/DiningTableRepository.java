@@ -21,4 +21,7 @@ public interface DiningTableRepository extends JpaRepository<DiningTableEntity, 
     Optional<DiningTableEntity> findByDiningTableIdAndActivatedTrue(Long diningTableId);
 
 
+    // 테이블 수 확인
+    long countByActivatedTrue();
+
 }
