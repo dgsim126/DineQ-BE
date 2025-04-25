@@ -78,10 +78,10 @@ public class CreateDummyData {
                 createMenu(1L, "떡오뎅탕(삼진어묵)", 16900, "", 4, "http://imagefarm.baemin.com/smartmenuimage/image_library/20211213/r_20211213_110.jpg"),
                 createMenu(1L, "된장술밥", 15900, "", 5, "http://file.smartbaedal.com/usr/menuitm/2012/07/m000147_a01_1280.jpg"),
                 createMenu(1L, "물만두 계란탕", 15900, "", 6, "http://file.smartbaedal.com/usr/menuitm/2013/1/22/m00046801221937_a02_1280.jpg"),
-                createMenu(1L, "홍합탕", 15900, "", 7, ""),
+                createMenu(1L, "홍합탕", 15900, "", 7, "https://recipe1.ezmember.co.kr/cache/recipe/2018/12/27/dbecfb4268e9f076d8694d3870da31e61.jpg"), // 외부
 
                 // 전, 튀김류
-                createMenu(2L, "김피탕(김치피자탕수육)", 20900, "", 8, ""),
+                createMenu(2L, "김피탕(김치피자탕수육)", 20900, "", 8, "https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/698/078e3bebaa7aff7014a1c2de749ca10d_res.jpeg"), // 외부
                 createMenu(2L, "치즈 김치전", 11900, "치즈전 + 치즈", 9, "http://imagefarm.baemin.com/smartmenuimage/image_library/20210422/r_431.jpg"),
                 createMenu(2L, "대왕 치즈 계란말이", 11900, "", 10, "http://imagefarm.baemin.com/smartmenuimage/image_library/20211213/r_20211213_330.jpg"),
                 createMenu(2L, "통오징어튀김 & 감자튀김", 15900, "", 11, "http://imagefarm.baemin.com/smartmenuimage/image_library/20240527/r_20240507_73.jpg"),
@@ -95,9 +95,9 @@ public class CreateDummyData {
 
                 // 볶음, 구이류
                 createMenu(3L, "마파두부 & 꽃빵", 20900, "", 19, "http://imagefarm.baemin.com/smartmenuimage/image_library/20210422/r_232.jpg"),
-                createMenu(3L, "고추잡채 & 꽃빵", 21900, "", 20, ""),
-                createMenu(3L, "순살 치즈 불닭", 22900, "", 21, ""),
-                createMenu(3L, "대패 삼겹구이 & 비빔면", 19900, "", 22, ""),
+                createMenu(3L, "고추잡채 & 꽃빵", 21900, "", 20, "https://sitem.ssgcdn.com/87/90/63/item/1000567639087_i1_1200.jpg"), // 외부
+                createMenu(3L, "순살 치즈 불닭", 22900, "", 21, "https://shop.biumfood.com/upload/1577416738image_product044.jpg"), // 외부
+                createMenu(3L, "대패 삼겹구이 & 비빔면", 19900, "", 22, "https://www.threads.com/@jjini_2016/post/C-cQpbNy1hY/media"), // 외부
                 createMenu(3L, "제육 두부김치", 21900, "", 23, "http://file.smartbaedal.com/usr/menuitm/2012/07/m000132_b01_1280.jpg"),
                 createMenu(3L, "우삼겹 숙주볶음", 19900, "", 24, "http://imagefarm.baemin.com/smartmenuimage/image_library/20210531/r_20210531_1597.jpg"),
                 createMenu(3L, "고추장 육회 비빔면", 20900, "비빔면 2인분 + 육회 200g + 계란 노른자", 25, "http://imagefarm.baemin.com/smartmenuimage/image_library/20210531/r_20210531_989.jpg"),
@@ -107,19 +107,19 @@ public class CreateDummyData {
                 createMenu(3L, "쉬림프 오일 파스타", 16900, "바게트 2조각 포함", 29, "http://imagefarm.baemin.com/smartmenuimage/upload/image/2020/4/24/oil%20pasta2_101804_870.jpg"),
 
                 // 디저트, 사이드
-                createMenu(4L, "파인애플 사베트", 8900, "", 30, ""),
+                createMenu(4L, "파인애플 사베트", 8900, "", 30, "https://thumbnail9.coupangcdn.com/thumbnails/remote/492x492ex/image/vendor_inventory/fc17/fecc23f827a5166a486a429f62a10f97e0aeb8f9c772c8a032392a7dc312.jpeg"), // 외부
                 createMenu(4L, "아이스 황도", 10900, "", 31, "http://file.smartbaedal.com/usr/menuitm/2013/1/22/m00048901221944_a01_1280.jpg"),
-                createMenu(4L, "첵스 초코 아이스크림", 12900, "", 32, ""),
-                createMenu(4L, "망고 바닐라 아이스크림", 12900, "", 33, ""),
+                createMenu(4L, "첵스 초코 아이스크림", 12900, "", 32, "https://ssproxy.ucloudbiz.olleh.com/v1/AUTH_e59809eb-bdc9-44d7-9d8f-2e7f0e47ba91/post_card/36130_1524637988_WChgekJA.jpg"), // 외부
+                createMenu(4L, "망고 바닐라 아이스크림", 12900, "", 33, "https://img.freepik.com/premium-photo/shaved-ice-dessert-with-mango-sliced-served-with-vanilla-ice-cream-whipped-cream_6351-1560.jpg?w=996"), // 외부
                 createMenu(4L, "짜계치", 10900, "짜파게티 + 치즈 + 계란후라이", 34, "http://imagefarm.baemin.com/smartmenuimage/image_library/20210531/r_20210531_1065.jpg"),
                 createMenu(4L, "파송송 계란탁 치즈라면", 5000, "계란 한 알, 체다치즈 한 장 들어갑니다 :)", 35, "http://imagefarm.baemin.com/smartmenuimage/image_library/20240527/r_20240514_141.jpg"),
-                createMenu(4L, "마약 콘치즈", 9900, "", 36, ""),
+                createMenu(4L, "마약 콘치즈", 9900, "", 36, "https://www.dailypop.kr/news/photo/202108/53480_105456_559.jpg"), // 외부
                 createMenu(4L, "혈당 폭발 프렌치 토스트", 11900, "설탕 + 연유가 뿌려져 나갑니다 :)", 37, "http://imagefarm.baemin.com/smartmenuimage/image_library/20210531/r_20210531_2168.jpg"),
                 createMenu(4L, "스팸 김치 볶음밥", 8900, "", 38, "http://imagefarm.baemin.com/smartmenuimage/image_library/20240206/r_20240206_26.jpg"),
                 createMenu(4L, "간장 계란밥", 5000, "밥 + 후라이2장 + 김가루 + 간장 + 참기름", 39, "http://imagefarm.baemin.com/smartmenuimage/image_library/20221214/r_20221214_891.jpg"),
                 createMenu(4L, "김가루 주먹밥", 4000, "", 40, "http://file.smartbaedal.com/usr/menuitm/2013/1/21/m00011401211817_a01_1280.jpg"),
-                createMenu(4L, "라면사리 추가", 2000, "", 41, ""),
-                createMenu(4L, "우동사리 추가", 2000, "", 42, ""),
+                createMenu(4L, "라면사리 추가", 2000, "", 41, "https://cdn.imweb.me/thumbnail/20230723/de08b218a13dc.jpg"), // 외부
+                createMenu(4L, "우동사리 추가", 2000, "", 42, "https://health.chosun.com/site/data/img_dir/2022/12/09/2022120901589_0.jpg"), // 외부
                 createMenu(4L, "계란후라이 1장", 1000, "", 43, "http://imagefarm.baemin.com/smartmenuimage/image_library/20210531/r_20210531_1336.jpg"),
                 createMenu(4L, "공기밥", 1000, "", 44, "http://imagefarm.baemin.com/smartmenuimage/image_library/20210422/r_446.jpg"),
 
@@ -138,34 +138,34 @@ public class CreateDummyData {
                 createMenu(6L, "참이슬", 5000, "", 53, "https://handokmall.de/thumbnail/6f/86/94/1713275971/18947_1920x1920.png?ts=1713275971"),
                 createMenu(6L, "진로", 5000, "", 54, "https://handokmall.de/thumbnail/8c/79/42/1713210423/13531_1920x1920.jpg?ts=1713210424"),
                 createMenu(6L, "새로", 5000, "", 55, "https://handokmall.de/thumbnail/12/80/92/1742801473/saero%20soju_1920x1920.webp?ts=1742801474"),
-                createMenu(6L, "별빛 청하", 5500, "", 56, "https://i.namu.wiki/i/ioXkM_PJvacyNitfsjiq4z6v-RTJQGH3ZvueEBmh_0EPI8wAm5F4KzD6WQfz0fdfXjR-Xg6I76tOSXwr9JyjtaKDsyIiZCjcE5HLCKmScNcy1mCztq1y_Kvef2SaSNbj94Bz3bbmI8es-814J7cZMw.webp"),
+                createMenu(6L, "별빛 청하", 5500, "", 56, "https://d1e2y5wc27crnp.cloudfront.net/media/core/product/thumbnail/8bd3953f-14f1-4804-9f95-aabd0f4765de.webp"),
 
                 createMenu(6L, "카스", 5000, "", 57, "https://img.khan.co.kr/news/2021/08/02/l_2021080201000188600015961.webp"),
                 createMenu(6L, "테라", 5000, "", 58, "http://dnmart.co.kr/attach/main_img_2/0_8801119770011_main.jpg"),
                 createMenu(6L, "켈리", 5000, "", 59, "https://dimg.donga.com/wps/NEWS/IMAGE/2023/04/18/118890387.1.jpg"),
 
                 createMenu(6L, "장수 막걸리", 4500, "", 60, "http://jsmakgeolli.kwk114.com/data/file/gallery/2001168095_PLUufa2F_1.png"),
-                createMenu(6L, "꿀 막걸리", 5000, "", 61, ""),
+                createMenu(6L, "꿀 막걸리", 5000, "", 61, "https://i.namu.wiki/i/AhlIjjrbekVah3dr0lCXYy6TY-FHiRMkI3ZVzoRTTedtA09rkow1-NjDLDZM2Umf5UzzdH1s1ph9O1wngVcvgQ.webp"), // 외부
 
-                createMenu(6L, "생맥주 500cc", 5000, "", 62, ""),
-                createMenu(6L, "생맥주 1700cc", 13000, "", 63, ""),
-                createMenu(6L, "자몽 생맥 500cc", 5500, "", 64, ""),
+                createMenu(6L, "생맥주 500cc", 5000, "", 62, "https://thumb.ac-illust.com/d2/d2600654cf6e5692c7baea62ed345c74_t.jpeg"), // 외부
+                createMenu(6L, "생맥주 1700cc", 13000, "", 63, "https://thumb.ac-illust.com/d2/d2600654cf6e5692c7baea62ed345c74_t.jpeg"), // 외부
+                createMenu(6L, "자몽 생맥 500cc", 5500, "", 64, "https://thumb.ac-illust.com/d2/d2600654cf6e5692c7baea62ed345c74_t.jpeg"), // 외부
 
-                createMenu(6L, "슬러시 소주 1잔 320ml", 4900, "", 65, ""),
+                createMenu(6L, "슬러시 소주 1잔 320ml", 4900, "", 65, "https://cdn.mindgil.com/news/photo/202402/80210_23947_3323.jpg"), // 외부
 
-                createMenu(6L, "핑크레몬 칵테일 소주 1잔 320ml", 4900, "핑크레몬", 66, ""),
-                createMenu(6L, "청포도 칵테일 소주 1잔 320ml", 4900, "청포도", 67, ""),
-                createMenu(6L, "자두 칵테일 소주 1잔 320ml", 4900, "자두", 68, ""),
-                createMenu(6L, "자몽 칵테일 소주 1잔 320ml", 4900, "자몽", 69, ""),
+                createMenu(6L, "핑크레몬 칵테일 소주 1잔 320ml", 4900, "핑크레몬", 66, "https://i.namu.wiki/i/nOQm7zIY_abCFxcAt9rR2ByNCemIoNFQ5K-BEbj4WeqsTmE3Nu1NnMQmcralhvlFOdozYGPwDjHJO29smSSp1w.webp"), // 외부
+                createMenu(6L, "청포도 칵테일 소주 1잔 320ml", 4900, "청포도", 67, "https://i.namu.wiki/i/nOQm7zIY_abCFxcAt9rR2ByNCemIoNFQ5K-BEbj4WeqsTmE3Nu1NnMQmcralhvlFOdozYGPwDjHJO29smSSp1w.webp"), // 외부
+                createMenu(6L, "자두 칵테일 소주 1잔 320ml", 4900, "자두", 68, "https://i.namu.wiki/i/nOQm7zIY_abCFxcAt9rR2ByNCemIoNFQ5K-BEbj4WeqsTmE3Nu1NnMQmcralhvlFOdozYGPwDjHJO29smSSp1w.webp"), // 외부
+                createMenu(6L, "자몽 칵테일 소주 1잔 320ml", 4900, "자몽", 69, "https://i.namu.wiki/i/nOQm7zIY_abCFxcAt9rR2ByNCemIoNFQ5K-BEbj4WeqsTmE3Nu1NnMQmcralhvlFOdozYGPwDjHJO29smSSp1w.webp"), // 외부
 
-                createMenu(6L, "핑크레몬 칵테일 소주 1병 750ml", 10900, "핑크레몬", 70, ""),
-                createMenu(6L, "청포도 칵테일 소주 1병 750ml", 10900, "청포도", 71, ""),
-                createMenu(6L, "자두 칵테일 소주 1병 750ml", 10900, "자두", 72, ""),
-                createMenu(6L, "자몽 칵테일 소주 1병 750ml", 10900, "자몽", 73, ""),
+                createMenu(6L, "핑크레몬 칵테일 소주 1병 750ml", 10900, "핑크레몬", 70, "https://mashija.com/wp-content/uploads/2020/07/%E1%84%89%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AB1.jpg"), // 외부
+                createMenu(6L, "청포도 칵테일 소주 1병 750ml", 10900, "청포도", 71, "https://mashija.com/wp-content/uploads/2020/07/%E1%84%89%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AB1.jpg"), // 외부
+                createMenu(6L, "자두 칵테일 소주 1병 750ml", 10900, "자두", 72, "https://mashija.com/wp-content/uploads/2020/07/%E1%84%89%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AB1.jpg"), // 외부
+                createMenu(6L, "자몽 칵테일 소주 1병 750ml", 10900, "자몽", 73, "https://mashija.com/wp-content/uploads/2020/07/%E1%84%89%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AB1.jpg"), // 외부
 
                 // 음료
-                createMenu(7L, "파인 슬러시 1잔", 3000, "파인", 74, ""),
-                createMenu(7L, "소다 슬러시 1잔", 3000, "소다", 75, ""),
+                createMenu(7L, "파인 슬러시 1잔", 3000, "파인", 74, "https://cdn.mindgil.com/news/photo/202402/80210_23947_3323.jpg"), // 외부
+                createMenu(7L, "소다 슬러시 1잔", 3000, "소다", 75, "https://cdn.mindgil.com/news/photo/202402/80210_23947_3323.jpg"), // 외부
 
                 createMenu(7L, "초코에몽", 1500, "", 76, "http://imagefarm.baemin.com/smartmenuimage/image_library/20221214/r_20221214_841.jpg"),
                 createMenu(7L, "코카콜라 355ml", 2000, "", 77, "http://imagefarm.baemin.com/smartmenuimage/image_library/20210422/r_18.jpg"),
