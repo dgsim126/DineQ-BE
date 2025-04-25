@@ -17,4 +17,8 @@ public interface DiningTableRepository extends JpaRepository<DiningTableEntity, 
     // 활성화된 테이블 중 가장 뒤 번호
     Optional<DiningTableEntity> findFirstByActivatedTrueOrderByTableNumberDesc();
 
+    // tableid가 활성화된 상태인지 확인
+    Optional<DiningTableEntity> findByDiningTableIdAndActivatedTrue(Long diningTableId);
+
+
 }
