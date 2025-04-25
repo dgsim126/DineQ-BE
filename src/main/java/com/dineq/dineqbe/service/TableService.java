@@ -51,6 +51,11 @@ public class TableService {
         return latestActiveTable.getTableNumber() + "번 테이블 삭제";
     }
 
+    // 테이블 수 확인
+    public long getActivatedTableCount() {
+        return diningTableRepository.countByActivatedTrue();
+    }
+
     @Transactional
     public void clearTable(Long tableId) {
         List<TableOrderEntity> tableOrderEntities= tableOrderRepository.findByDiningTable_DiningTableId(tableId);
