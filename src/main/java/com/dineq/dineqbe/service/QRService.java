@@ -1,7 +1,9 @@
 package com.dineq.dineqbe.service;
 
 import com.dineq.dineqbe.domain.entity.QREntity;
+import com.dineq.dineqbe.repository.DiningTableRepository;
 import com.dineq.dineqbe.repository.QRRepository;
+import com.dineq.dineqbe.repository.TableOrderRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,11 @@ import java.time.format.DateTimeFormatter;
 public class QRService {
 
     private final QRRepository qrRepository;
+    private final DiningTableRepository diningTableRepository;
 
-    public QRService(QRRepository qrRepository) {
+    public QRService(QRRepository qrRepository, DiningTableRepository diningTableRepository) {
         this.qrRepository = qrRepository;
+        this.diningTableRepository = diningTableRepository;
     }
 
     private static final String CHAR_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -71,5 +75,15 @@ public class QRService {
         LocalDateTime now = LocalDateTime.now().minusMinutes(30);
         qrRepository.deleteByCreatedAtBefore(now);
         System.out.println("30분 이상 지난 QR 토큰 삭제 완료 at " + LocalDateTime.now());
+    }
+
+    public Boolean checkTable(String tableId) {
+        try{
+            Long id= Long.parseLong(tableId);
+            return diningTableRepository.findByDiningTableIdAndActivatedTrue(id).isPresent();
+        }catch (NumberFormatException e){
+            System.out.println("잘못된 tableId 형식: " + tableId);
+            return false;
+        }
     }
 }

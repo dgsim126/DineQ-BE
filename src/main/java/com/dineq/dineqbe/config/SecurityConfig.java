@@ -44,6 +44,7 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/api/v1/register/**",
                                 "/QR.html",
+                                "/QR-fail.html",
                                 "/qrcode-test.html",                   // 테스트용 나중에 지울 것
                                 "/css/**", "/js/**", "/images/**"  // 테스트용 나중에 지울 것
                         ).permitAll()

@@ -25,24 +25,28 @@ public class QRController {
      */
     @GetMapping("/QR/{tableId}")
     public String pictureQR(@PathVariable String tableId) {
-        // model.addAttribute("tableId", tableId);
         return "redirect:/QR.html?tableId=" + tableId;
     }
 
     /**
-     * 토큰 만들어서 프론트로 리다이렉트
+     * tableId 검증 후, 토큰 만들어서 프론트로 리다이렉트
      * POST /api/v1/register/QR/{tableId}
      * @param tableId
      * @return
      */
     @PostMapping("/QR/{tableId}")
     public ResponseEntity<String> registerQR(@PathVariable String tableId) {
-        String randomToken= qrService.registerQR(tableId);
+        // 해당 테이블이 활성화되어있는지 확인 후 활성화 되어 있지 않다면 특정 페이지로 리다이렉트
+        Boolean flag= qrService.checkTable(tableId);
+        String redirectURl= "";
 
-        // String redirectURl="http://localhost:3000/order/"+tableId+"?token="+randomToken;
-        String redirectURl="https://dine-q-fe.vercel.app/order?tableId="+tableId+"&token="+randomToken;
-        // String redirectURl = "https://localhost:3000/order?tableId=" + tableId + "&token=" + randomToken;
+        if(!flag) {
+            redirectURl = "/QR-fail.html?tableId=" + tableId;
 
+        }else{
+            String randomToken= qrService.registerQR(tableId);
+            redirectURl="https://dine-q-fe.vercel.app/order?tableId="+tableId+"&token="+randomToken;
+        }
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", redirectURl);
