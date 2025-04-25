@@ -38,6 +38,17 @@ public class TableController {
     }
 
     /**
+     * 테이블 수 확인
+     * GET /api/v1/store/tables/count
+     * @return
+     */
+    @GetMapping("/tables/count")
+    public ResponseEntity<Long> getActivatedTableCount() {
+        long count = tableService.getActivatedTableCount();
+        return ResponseEntity.ok(count);
+    }
+
+    /**
      * 테이블 비우기(테이블 비우고, 기록)
      * POST /api/v1/store/tables/{tableId}/clear
      * @param tableId
