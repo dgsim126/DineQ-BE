@@ -126,13 +126,30 @@ public class MenuService {
     // 메뉴 우선순위 변경
     @Transactional
     public void updatePriorities(List<MenuPriorityRequestDTO> priorities) {
-        for (MenuPriorityRequestDTO menuPriorityRequestDTO : priorities) {
-            MenuEntity menuEntity = menuRepository.findById(menuPriorityRequestDTO.getMenuId()).orElse(null);
+        // Step 1: 대상 menuId에 해당하는 메뉴들 전부 조회
+        List<Long> menuIds = priorities.stream()
+                .map(MenuPriorityRequestDTO::getMenuId)
+                .toList();
 
-            if(menuEntity!=null){
-                menuEntity.setMenuPriority(menuPriorityRequestDTO.getMenuPriority());
-            }
+        List<MenuEntity> menuEntities = menuRepository.findAllById(menuIds);
+
+        // Step 2: 임시값 (-1)으로 우선순위 초기화 (중복 회피)
+        int tempPriority = -1;
+        for (MenuEntity menu : menuEntities) {
+            menu.setMenuPriority(tempPriority--);
         }
+        menuRepository.saveAll(menuEntities);
+        menuRepository.flush();
+
+        // Step 3: 실제 우선순위 반영
+        for (MenuEntity menu : menuEntities) {
+            priorities.stream()
+                    .filter(p -> p.getMenuId().equals(menu.getMenuId()))
+                    .findFirst()
+                    .ifPresent(p -> menu.setMenuPriority(p.getMenuPriority()));
+        }
+
+        menuRepository.saveAll(menuEntities); // 최종 저장
     }
 
     // 메뉴 판매 여부 변경
