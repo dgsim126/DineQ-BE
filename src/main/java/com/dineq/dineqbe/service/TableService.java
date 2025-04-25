@@ -3,6 +3,7 @@ package com.dineq.dineqbe.service;
 import com.dineq.dineqbe.domain.entity.DiningTableEntity;
 import com.dineq.dineqbe.domain.entity.PaymentHistoryEntity;
 import com.dineq.dineqbe.domain.entity.TableOrderEntity;
+import com.dineq.dineqbe.dto.table.ChangeTableRequestDTO;
 import com.dineq.dineqbe.repository.DiningTableRepository;
 import com.dineq.dineqbe.repository.PaymentHistoryRepository;
 import com.dineq.dineqbe.repository.TableOrderRepository;
@@ -83,5 +84,35 @@ public class TableService {
 
         paymentHistoryRepository.saveAll(paymentHistoryEntities);
         tableOrderRepository.deleteAll(tableOrderEntities);
+    }
+
+    // 테이블 변경
+    /*
+    1. TableOrderEntity에서 diningTable의 값이 request.fromUserId에 해당하는 객체 모두 찾기
+    2. 찾아온 모든 객체의 dingingTable의 값을 request.toUserId로 변경하기
+     */
+    @Transactional
+    public void changeTable(ChangeTableRequestDTO request) {
+        // 1. 테이블 ID로 각각의 DiningTableEntity 조회
+        DiningTableEntity fromTable = diningTableRepository.findById(request.getFromTableId())
+                .orElseThrow(() -> new EntityNotFoundException("기존 테이블을 찾을 수 없습니다: " + request.getFromTableId()));
+
+        DiningTableEntity toTable = diningTableRepository.findById(request.getToTableId())
+                .orElseThrow(() -> new EntityNotFoundException("이동할 테이블을 찾을 수 없습니다: " + request.getToTableId()));
+
+        // 2. 기존 테이블에 속한 모든 주문 조회
+        List<TableOrderEntity> orders = tableOrderRepository.findByDiningTable_DiningTableId(fromTable.getDiningTableId());
+
+        if (orders.isEmpty()) {
+            throw new IllegalStateException("기존 테이블에 주문이 존재하지 않습니다: " + request.getFromTableId());
+        }
+
+        for (TableOrderEntity order : orders) {
+            order.setDiningTable(toTable);
+        }
+
+        tableOrderRepository.saveAll(orders);
+        System.out.println("총 " + orders.size() + "건의 주문이 테이블 " + request.getFromTableId() + " → " + request.getToTableId() + "로 이동되었습니다.");
+
     }
 }
