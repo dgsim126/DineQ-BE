@@ -104,6 +104,8 @@ public class CustomerService {
     /**
      * 주문 내역 조회
      * [GET] api/v1/orders/{tableId}
+     * 테이블 별 주문 내역 확인
+     * [GET] api/v1/store/orders/{tableId}
      * @param tableId
      * @return
      */
