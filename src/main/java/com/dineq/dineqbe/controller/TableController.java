@@ -90,6 +90,12 @@ public class TableController {
         }
     }
 
+    /**
+     * 테이블 변경
+     * PUT /api/v1/store/tables/change
+     * @param request
+     * @return
+     */
     @PutMapping("tables/change")
     public ResponseEntity<String> changeTable(@RequestBody ChangeTableRequestDTO request) {
         try{
