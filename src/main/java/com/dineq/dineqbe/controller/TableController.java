@@ -1,6 +1,7 @@
 package com.dineq.dineqbe.controller;
 
 import com.dineq.dineqbe.dto.customer.TableOrderResponseDTO;
+import com.dineq.dineqbe.dto.table.ChangeTableRequestDTO;
 import com.dineq.dineqbe.service.CustomerService;
 import com.dineq.dineqbe.service.TableService;
 import jakarta.persistence.EntityNotFoundException;
@@ -89,4 +90,17 @@ public class TableController {
         }
     }
 
+    @PutMapping("tables/change")
+    public ResponseEntity<String> changeTable(@RequestBody ChangeTableRequestDTO request) {
+        try{
+            tableService.changeTable(request);
+            return ResponseEntity.ok("Table changed");
+        }catch(EntityNotFoundException e){
+            return ResponseEntity.status(404).body(e.getMessage());
+        }catch (IllegalStateException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
 }
