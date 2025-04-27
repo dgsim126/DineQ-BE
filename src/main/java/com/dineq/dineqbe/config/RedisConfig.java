@@ -9,7 +9,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 
 @Configuration
-@EnableRedisHttpSession
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 31536000) // 1년
 public class RedisConfig {
 
     @Value("${spring.data.redis.host}")
