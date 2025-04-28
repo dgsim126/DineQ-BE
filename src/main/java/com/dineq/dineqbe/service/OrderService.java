@@ -43,7 +43,10 @@ public class OrderService {
             Map<String, List<OrderResponseDTO>> grouped = dtoList.stream()
                     .collect(Collectors.groupingBy(OrderResponseDTO::getGroupNum));
 
-            return new ArrayList<>(grouped.values());
+            // 그룹핑된 리스트를 orderTime 기준으로 내림차순 정렬
+            return grouped.values().stream()
+                    .sorted((g1, g2) -> g2.get(0).getOrderTime().compareTo(g1.get(0).getOrderTime()))
+                    .collect(Collectors.toList());
 
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("유효하지 않은 주문 상태: " + status);
