@@ -142,7 +142,7 @@ public class CreateDummyData {
                 createMenu(6L, "테라", 5000, "", 58, "https://dnmart.co.kr/attach/main_img_2/0_8801119770011_main.jpg"),
                 createMenu(6L, "켈리", 5000, "", 59, "https://dimg.donga.com/wps/NEWS/IMAGE/2023/04/18/118890387.1.jpg"),
 
-                createMenu(6L, "장수 막걸리", 4500, "", 60, "https://www.koreawine.co.kr/2011/img/c1/page1_img2.jpg"), // 외부
+                createMenu(6L, "장수 막걸리", 4500, "", 60, "https://mblogthumb-phinf.pstatic.net/MjAxOTA5MTlfOTMg/MDAxNTY4ODc4NTUwNTcy.8MFYu3wuT-SgZVUig5JYh-swYQAzznnhwPZbim4Kpccg.gqlNVtY3ZDBKM3L4-GAW3x_BGTlIMx_FIrwb5c6AyEUg.JPEG.yangbbbb/temp_1568544465866.1496466199.jpeg?type=w800"), // 외부
                 createMenu(6L, "꿀 막걸리", 5000, "", 61, "https://i.namu.wiki/i/AhlIjjrbekVah3dr0lCXYy6TY-FHiRMkI3ZVzoRTTedtA09rkow1-NjDLDZM2Umf5UzzdH1s1ph9O1wngVcvgQ.webp"), // 외부
 
                 createMenu(6L, "생맥주 500cc", 5000, "", 62, "https://thumb.ac-illust.com/d2/d2600654cf6e5692c7baea62ed345c74_t.jpeg"), // 외부
