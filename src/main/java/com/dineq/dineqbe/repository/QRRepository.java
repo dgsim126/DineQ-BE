@@ -11,4 +11,6 @@ public interface QRRepository extends JpaRepository<QREntity, Long> {
     boolean existsByTokenAndTableId(String token, String tableId);
 
     void deleteByCreatedAtBefore(LocalDateTime now);
+
+    void deleteByTableId(String tableId);
 }
