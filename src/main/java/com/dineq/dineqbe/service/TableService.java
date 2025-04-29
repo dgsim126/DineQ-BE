@@ -6,6 +6,7 @@ import com.dineq.dineqbe.domain.entity.TableOrderEntity;
 import com.dineq.dineqbe.dto.table.ChangeTableRequestDTO;
 import com.dineq.dineqbe.repository.DiningTableRepository;
 import com.dineq.dineqbe.repository.PaymentHistoryRepository;
+import com.dineq.dineqbe.repository.QRRepository;
 import com.dineq.dineqbe.repository.TableOrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,14 @@ public class TableService {
     private final DiningTableRepository diningTableRepository;
     private final TableOrderRepository tableOrderRepository;
     private final PaymentHistoryRepository paymentHistoryRepository;
+    private final QRRepository qrRepository;
 
-    public TableService(DiningTableRepository diningTableRepository, TableOrderRepository tableOrderRepository, PaymentHistoryRepository paymentHistoryRepository) {
+    public TableService(DiningTableRepository diningTableRepository, TableOrderRepository tableOrderRepository,
+                        PaymentHistoryRepository paymentHistoryRepository, QRRepository qrRepository) {
         this.diningTableRepository = diningTableRepository;
         this.tableOrderRepository = tableOrderRepository;
         this.paymentHistoryRepository = paymentHistoryRepository;
+        this.qrRepository = qrRepository;
     }
 
     // 테이블 추가
@@ -57,6 +61,7 @@ public class TableService {
         return diningTableRepository.countByActivatedTrue();
     }
 
+    // 테이블 비우기
     @Transactional
     public void clearTable(Long tableId) {
         List<TableOrderEntity> tableOrderEntities= tableOrderRepository.findByDiningTable_DiningTableId(tableId);
@@ -84,6 +89,8 @@ public class TableService {
 
         paymentHistoryRepository.saveAll(paymentHistoryEntities);
         tableOrderRepository.deleteAll(tableOrderEntities);
+
+        qrRepository.deleteByTableId(String.valueOf(tableId));
     }
 
     // 테이블 변경
