@@ -95,7 +95,7 @@ public class CreateDummyData {
                 createMenu(3L, "마파두부 & 꽃빵", 20900, "", 19, "https://imagefarm.baemin.com/smartmenuimage/image_library/20210422/r_232.jpg"),
                 createMenu(3L, "고추잡채 & 꽃빵", 21900, "", 20, "https://sitem.ssgcdn.com/87/90/63/item/1000567639087_i1_1200.jpg"), // 외부
                 createMenu(3L, "순살 치즈 불닭", 22900, "", 21, "https://shop.biumfood.com/upload/1577416738image_product044.jpg"), // 외부
-                createMenu(3L, "대패 삼겹구이 & 비빔면", 19900, "", 22, "https://upload3.inven.co.kr/upload/2023/07/15/bbs/i16504991993.jpg?MW=800"), // 외부
+                createMenu(3L, "대패 삼겹구이 & 비빔면", 19900, "", 22, "https://product-image.kurly.com/product/image/2bce065d-54ff-4370-baf5-829dbf38070e.jpg"), // 외부
                 createMenu(3L, "제육 두부김치", 21900, "", 23, "https://file.smartbaedal.com/usr/menuitm/2012/07/m000132_b01_1280.jpg"),
                 createMenu(3L, "우삼겹 숙주볶음", 19900, "", 24, "https://imagefarm.baemin.com/smartmenuimage/image_library/20210531/r_20210531_1597.jpg"),
                 createMenu(3L, "고추장 육회 비빔면", 20900, "비빔면 2인분 + 육회 200g + 계란 노른자", 25, "https://imagefarm.baemin.com/smartmenuimage/image_library/20210531/r_20210531_989.jpg"),
@@ -142,7 +142,7 @@ public class CreateDummyData {
                 createMenu(6L, "테라", 5000, "", 58, "https://dnmart.co.kr/attach/main_img_2/0_8801119770011_main.jpg"),
                 createMenu(6L, "켈리", 5000, "", 59, "https://dimg.donga.com/wps/NEWS/IMAGE/2023/04/18/118890387.1.jpg"),
 
-                createMenu(6L, "장수 막걸리", 4500, "", 60, "https://mblogthumb-phinf.pstatic.net/MjAxOTA5MTlfOTMg/MDAxNTY4ODc4NTUwNTcy.8MFYu3wuT-SgZVUig5JYh-swYQAzznnhwPZbim4Kpccg.gqlNVtY3ZDBKM3L4-GAW3x_BGTlIMx_FIrwb5c6AyEUg.JPEG.yangbbbb/temp_1568544465866.1496466199.jpeg?type=w800"), // 외부
+                createMenu(6L, "장수 막걸리", 4500, "", 60, "https://www.amnews.co.kr/news/photo/202104/45709_32889_1658.jpg"), // 외부
                 createMenu(6L, "꿀 막걸리", 5000, "", 61, "https://i.namu.wiki/i/AhlIjjrbekVah3dr0lCXYy6TY-FHiRMkI3ZVzoRTTedtA09rkow1-NjDLDZM2Umf5UzzdH1s1ph9O1wngVcvgQ.webp"), // 외부
 
                 createMenu(6L, "생맥주 500cc", 5000, "", 62, "https://thumb.ac-illust.com/d2/d2600654cf6e5692c7baea62ed345c74_t.jpeg"), // 외부
