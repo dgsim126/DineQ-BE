@@ -33,8 +33,6 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 추가
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/v1/auth/register",
-                                "/api/v1/auth/register/admin",
                                 "/api/v1/auth/check",
                                 "/api/v1/menus",
                                 "/api/v1/menus/**",
