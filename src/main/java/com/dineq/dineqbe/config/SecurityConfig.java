@@ -116,8 +116,8 @@ public class SecurityConfig {
         serializer.setCookieName("SESSION"); // 세션 쿠키 이름
         serializer.setCookiePath("/");
         
-        serializer.setUseSecureCookie(true); // 배포 시 이걸로 활성화, HTTPS에서만 쿠키 전송 (http에서는 쿠키 전송이 안되므로 개발 환경에서는 false로 설정)
-        // serializer.setUseSecureCookie(false); // localhost 로 테스트 시에는 이걸로 활성화
+        // serializer.setUseSecureCookie(true); // 배포 시 이걸로 활성화, HTTPS에서만 쿠키 전송 (http에서는 쿠키 전송이 안되므로 개발 환경에서는 false로 설정)
+        serializer.setUseSecureCookie(false); // localhost 로 테스트 시에는 이걸로 활성화
         serializer.setSameSite("None"); // 크로스 사이트 요청에서 쿠키 허용
         return serializer;
     }
