@@ -33,6 +33,10 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 추가
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
+                                "/ws/**", // 웹소켓 핸드셰이크 허용
+                                "/ws",
+
+                                "/api/v1/auth/register", // 임시
                                 "/api/v1/auth/check",
                                 "/api/v1/menus",
                                 "/api/v1/menus/**",

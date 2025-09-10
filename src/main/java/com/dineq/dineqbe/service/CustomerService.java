@@ -7,9 +7,13 @@ import com.dineq.dineqbe.dto.customer.*;
 import com.dineq.dineqbe.repository.DiningTableRepository;
 import com.dineq.dineqbe.repository.MenuRepository;
 import com.dineq.dineqbe.repository.TableOrderRepository;
+import com.dineq.dineqbe.websocket.InvalidateSender;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import com.dineq.dineqbe.domain.enums.OrderStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 
 import java.awt.*;
@@ -28,13 +32,16 @@ public class CustomerService {
     private final MenuRepository menuRepository;
     private final DiningTableRepository diningTableRepository;
     private final TableOrderRepository tableOrderRepository;
+    private final InvalidateSender invalidateSender;
 
     public CustomerService(MenuRepository menuRepository,
                            DiningTableRepository diningTableRepository,
-                           TableOrderRepository tableOrderRepository) {
+                           TableOrderRepository tableOrderRepository,
+                           InvalidateSender invalidateSender) {
         this.menuRepository = menuRepository;
         this.diningTableRepository = diningTableRepository;
         this.tableOrderRepository = tableOrderRepository;
+        this.invalidateSender = invalidateSender;
     }
 
     /**
@@ -68,6 +75,7 @@ public class CustomerService {
      * @param request
      * @return
      */
+    @Transactional
     public String createOrder(TableOrderRequestDTO request) {
         if (request.getOrders() == null || request.getOrders().isEmpty()) {
             throw new IllegalStateException("주문 목록이 비어 있습니다.");
@@ -97,6 +105,13 @@ public class CustomerService {
 
             tableOrderRepository.save(order);
         }
+
+        // 5) 커밋 성공 후 신호 발사 (롤백 시 발사 X)
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override public void afterCommit() {
+                invalidateSender.sendAlert("/api/v1/orders");
+            }
+        });
 
         return groupNum;
     }

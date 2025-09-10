@@ -5,7 +5,11 @@ import com.dineq.dineqbe.domain.enums.OrderStatus;
 import com.dineq.dineqbe.dto.menu.OrderResponseDTO;
 import com.dineq.dineqbe.dto.menu.OrderStatusUpdateResponseDTO;
 import com.dineq.dineqbe.repository.TableOrderRepository;
+import com.dineq.dineqbe.websocket.InvalidateSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +21,11 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final TableOrderRepository tableOrderRepository;
+    private final InvalidateSender invalidateSender;
 
-    public OrderService(TableOrderRepository tableOrderRepository) {
+    public OrderService(TableOrderRepository tableOrderRepository, InvalidateSender invalidateSender) {
         this.tableOrderRepository = tableOrderRepository;
+        this.invalidateSender = invalidateSender;
     }
 
 
@@ -55,6 +61,7 @@ public class OrderService {
     }
 
     // 요청된주문 -> 요리중인 주문
+    @Transactional
     public OrderStatusUpdateResponseDTO acceptOrders(List<Long> orderIds) {
         List<Long> success = new ArrayList<>();
         List<OrderStatusUpdateResponseDTO.FailedOrderDTO> failed = new ArrayList<>();
@@ -81,6 +88,13 @@ public class OrderService {
 
         if (!toSave.isEmpty()) {
             tableOrderRepository.saveAll(toSave);
+
+            // 커밋 성공 후 신호 발사 (웹소켓)
+            TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+                @Override public void afterCommit() {
+                    invalidateSender.sendAlert("/api/v1/store/orders/accept");
+                }
+            });
         }
 
         return new OrderStatusUpdateResponseDTO(success, failed);
@@ -88,6 +102,7 @@ public class OrderService {
 
 
     // 요리중인 주문 -> 완료된 주문
+    @Transactional
     public OrderStatusUpdateResponseDTO completeOrders(List<Long> orderIds) {
         List<Long> success = new ArrayList<>();
         List<OrderStatusUpdateResponseDTO.FailedOrderDTO> failed = new ArrayList<>();
@@ -114,6 +129,13 @@ public class OrderService {
 
         if (!toSave.isEmpty()) {
             tableOrderRepository.saveAll(toSave);
+
+            // 커밋 성공 후 신호 발사 (웹소켓)
+            TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+                @Override public void afterCommit() {
+                    invalidateSender.sendAlert("/api/v1/store/orders/complete");
+                }
+            });
         }
 
         return new OrderStatusUpdateResponseDTO(success, failed);
@@ -121,6 +143,7 @@ public class OrderService {
 
 
     // orderId에 해당하는 주문내역 지우기
+    @Transactional
     public void cancelOneOrder(Long orderId) {
         if (orderId == null) {
             throw new IllegalArgumentException("orderId가 비어있음");
@@ -130,9 +153,17 @@ public class OrderService {
                 .orElseThrow(()->new IllegalArgumentException("orderId "+ orderId +"에 해당되는 주문이 존재하지 않음"));
 
         tableOrderRepository.delete(tableOrderEntity);
+
+        // 커밋 성공 후 신호 발사 (웹소켓)
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override public void afterCommit() {
+                invalidateSender.sendAlert("/api/v1/store/orders/one/{orderId}/cancel");
+            }
+        });
     }
 
     // groupNum에 해당하는 주문내역 지우기
+    @Transactional
     public void cancelAll(String groupNum) {
         if(groupNum == null) {
             throw new IllegalArgumentException("groupNum이 비어있음");
@@ -144,5 +175,12 @@ public class OrderService {
             throw new IllegalArgumentException(groupNum + " groupNum에 해당하는 주문내역이 존재하지 않음");
         }
         tableOrderRepository.deleteAll(tableOrderEntities);
+
+        // 커밋 성공 후 신호 발사 (웹소켓)
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override public void afterCommit() {
+                invalidateSender.sendAlert("/api/v1/store/orders/all/{groupNum}/cancel");
+            }
+        });
     }
 }

@@ -24,7 +24,10 @@ public class AckController {
     public void ack(@Payload AckMessage msg) {
 
         if(msg!=null && msg.messageId()!=null) {
+            System.out.println("[ACK Received] AckMessage: " + msg.messageId());
             sender.onAck(msg.messageId()); // 대기 제거
+        }else{
+            System.out.println("[ACK Received] AckMessage: Something wrong");
         }
     }
 }

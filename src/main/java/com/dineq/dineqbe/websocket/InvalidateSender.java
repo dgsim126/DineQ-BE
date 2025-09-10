@@ -42,11 +42,12 @@ public class InvalidateSender {
     /**
      * 클라이언트에게 "변경됨" 신호 1개를 발사한다.
      */
-    public void sendAlert() { // 알림 1건 발사
+    public void sendAlert(String text) { // 알림 1건 발사
         String id= UUID.randomUUID().toString();
         Map<String, Object> payload= Map.of(
                 "type", "invalidate", // 내용 없음
-                "messageId", id       // ACK 식별용
+                "messageId", id,       // ACK 식별용
+                "text", text
         );
         pendings.put(id, new Pending(payload, 0)); // pendings Map에 넣어둔다.
         doSend(id);
@@ -93,7 +94,13 @@ public class InvalidateSender {
      * @param messageId
      */
     public void onAck(String messageId) {
-        pendings.remove(messageId);
+        Pending p= pendings.remove(messageId);
+//        if (p != null) {
+//            Object status = p.payload.get("status");
+//            System.out.println("✅ ACK 수신 - messageId=" + messageId + ", status=" + status);
+//        } else {
+//            System.out.println("⚠️ ACK 수신했지만 대기열에서 찾지 못함 - messageId=" + messageId);
+//        }
     }
 
     /**

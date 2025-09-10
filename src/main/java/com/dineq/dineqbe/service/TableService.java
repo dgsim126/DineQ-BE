@@ -8,9 +8,12 @@ import com.dineq.dineqbe.repository.DiningTableRepository;
 import com.dineq.dineqbe.repository.PaymentHistoryRepository;
 import com.dineq.dineqbe.repository.QRRepository;
 import com.dineq.dineqbe.repository.TableOrderRepository;
+import com.dineq.dineqbe.websocket.InvalidateSender;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,13 +26,18 @@ public class TableService {
     private final TableOrderRepository tableOrderRepository;
     private final PaymentHistoryRepository paymentHistoryRepository;
     private final QRRepository qrRepository;
+    private final InvalidateSender invalidateSender;
 
-    public TableService(DiningTableRepository diningTableRepository, TableOrderRepository tableOrderRepository,
-                        PaymentHistoryRepository paymentHistoryRepository, QRRepository qrRepository) {
+    public TableService(DiningTableRepository diningTableRepository,
+                        TableOrderRepository tableOrderRepository,
+                        PaymentHistoryRepository paymentHistoryRepository,
+                        QRRepository qrRepository,
+                        InvalidateSender invalidateSender) {
         this.diningTableRepository = diningTableRepository;
         this.tableOrderRepository = tableOrderRepository;
         this.paymentHistoryRepository = paymentHistoryRepository;
         this.qrRepository = qrRepository;
+        this.invalidateSender = invalidateSender;
     }
 
     // 테이블 추가
@@ -91,6 +99,13 @@ public class TableService {
         tableOrderRepository.deleteAll(tableOrderEntities);
 
         qrRepository.deleteByTableId(String.valueOf(tableId));
+
+        // 커밋 성공 후 신호 발사 (웹소켓)
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override public void afterCommit() {
+                invalidateSender.sendAlert("/api/v1/store/tables/{tableId}/clear");
+            }
+        });
     }
 
     // 테이블 변경
@@ -121,5 +136,11 @@ public class TableService {
         tableOrderRepository.saveAll(orders);
         System.out.println("총 " + orders.size() + "건의 주문이 테이블 " + request.getFromTableId() + " → " + request.getToTableId() + "로 이동되었습니다.");
 
+        // 커밋 성공 후 신호 발사 (웹소켓)
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override public void afterCommit() {
+                invalidateSender.sendAlert("/api/v1/store/tables/change");
+            }
+        });
     }
 }
