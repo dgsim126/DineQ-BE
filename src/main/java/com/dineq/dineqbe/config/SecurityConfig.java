@@ -99,6 +99,7 @@ public class SecurityConfig {
                 "http://localhost:3000",
                 "https://dineq.loseyourip.com",
                 "https://dine-q-fe.vercel.app",
+                "https://dineqws.duckdns.org",
                 "https://dine-q-fe-renewer.vercel.app"
         )); // 프론트 주소
 
