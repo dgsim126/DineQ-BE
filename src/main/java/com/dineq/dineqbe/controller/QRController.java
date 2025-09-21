@@ -42,11 +42,11 @@ public class QRController {
 
         if(!flag) {
             // redirectURl = "/QR-fail.html?tableId=" + tableId;
-            redirectURl= "https://dine-q-fe.vercel.app/order/expiration";
+            redirectURl= "https://dine-q-fe-renewer.vercel.app/order/expiration";
 
         }else{
             String randomToken= qrService.registerQR(tableId);
-            redirectURl="https://dine-q-fe.vercel.app/order?tableId="+tableId+"&token="+randomToken;
+            redirectURl="https://dine-q-fe-renewer.vercel.app/order?tableId="+tableId+"&token="+randomToken;
         }
 
         HttpHeaders headers = new HttpHeaders();
